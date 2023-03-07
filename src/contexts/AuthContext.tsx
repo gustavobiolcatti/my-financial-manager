@@ -1,16 +1,15 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../services/firebase";
 
-type User = {
-  id: string;
-  name?: string;
-  avatar?: string;
-  email?: string;
-};
+import { auth } from "services/firebase";
+
+import { User } from "models/user";
+
+import usePostUser from "requests/queries/usePostUser";
+import useListUser from "requests/queries/useListUser";
 
 type AuthContextType = {
-  user?: User | null;
+  user?: User;
   signInWithGoogle: () => Promise<void>;
 };
 
@@ -25,9 +24,27 @@ const AuthContext = createContext({} as AuthContextType);
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User>();
 
+  const hasUserInDatabase = async (user: User): Promise<void> => {
+    const { data: filteredUser } = await useListUser({ id: user.id });
+
+    if (!filteredUser) {
+      await usePostUser({ user });
+    }
+  };
+
   const signInWithGoogle = async (): Promise<void> => {
     try {
-      const { user: userData } = await signInWithPopup(auth, provider);
+      const { user } = await signInWithPopup(auth, provider);
+
+      const userData = {
+        id: user.uid,
+        name: user.displayName,
+        avatar: user.photoURL,
+        email: user.email,
+      };
+
+      hasUserInDatabase(userData);
+      setUser(userData);
     } catch (error) {}
   };
 
