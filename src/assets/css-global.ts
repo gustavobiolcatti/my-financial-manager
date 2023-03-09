@@ -1,8 +1,6 @@
 import { createGlobalStyle, css } from "styled-components";
 
 export const globalBodyStyle = css`
-  /* @import url('https://fonts.cdnfonts.com/css/pokemon-fire-red'); */
-
   *,
   ::before,
   ::after {

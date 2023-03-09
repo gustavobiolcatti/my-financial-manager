@@ -34,18 +34,24 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signInWithGoogle = async (): Promise<void> => {
     try {
-      const { user } = await signInWithPopup(auth, provider);
+      const { user: userData } = await signInWithPopup(auth, provider);
 
-      const userData = {
-        id: user.uid,
-        name: user.displayName,
-        avatar: user.photoURL,
-        email: user.email,
-      };
+      if (userData) {
+        const filteredUser = {
+          id: userData.uid,
+          name: userData.displayName,
+          avatar: userData.photoURL,
+          email: userData.email,
+        };
 
-      hasUserInDatabase(userData);
-      setUser(userData);
-    } catch (error) {}
+        hasUserInDatabase(filteredUser);
+        setUser(filteredUser);
+      }
+    } catch (error) {
+      const err = error as Error;
+
+      console.log("ERROR =>> ", err.message);
+    }
   };
 
   return (

@@ -9,11 +9,9 @@ type PrivateRoutesProps = {
 const PrivateRoutes = ({ children }: PrivateRoutesProps): JSX.Element => {
   const { user } = useAuth();
 
-  if (!user) {
-    <Navigate to={"/"} />;
-  }
+  console.log(user);
 
-  return children;
+  return user ? children : <Navigate to="/login" />;
 };
 
 export default PrivateRoutes;

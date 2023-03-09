@@ -1,12 +1,5 @@
-import { Outlet } from "react-router-dom";
-
 const Dashboard = (): JSX.Element => {
-  return (
-    <>
-      <h1>Dashboard</h1>;
-      <Outlet />
-    </>
-  );
+  return <h1>Dashboard</h1>;
 };
 
 export default Dashboard;
