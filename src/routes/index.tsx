@@ -1,15 +1,21 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Outlet,
+  redirect,
+  Route,
+  Routes,
+} from 'react-router-dom';
 
-import AuthProvider from "contexts/AuthContext";
+import AuthProvider from 'contexts/AuthContext';
 
-import Login from "pages/Login";
-import Home from "pages/Home";
-import Transations from "pages/Transations";
-import Dashboard from "pages/Dashboard";
-import Banks from "pages/Banks";
-import Error from "pages/Error";
+import Login from 'pages/Login';
+import Home from 'pages/Home';
+import Transations from 'pages/Transations';
+import Dashboard from 'pages/Dashboard';
+import Banks from 'pages/Banks';
+import Error from 'pages/Error';
 
-import PrivateRoutes from "routes/PrivateRoutes";
+import PrivateRoutes from 'routes/PrivateRoutes';
 
 const Router = (): JSX.Element => {
   return (
@@ -25,7 +31,11 @@ const Router = (): JSX.Element => {
               </PrivateRoutes>
             }
           >
-            <Route path="/" element={<Home />}>
+            <Route
+              path="/"
+              element={<Home />}
+              loader={() => redirect('dashboard')}
+            >
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="transations" element={<Transations />} />
               <Route path="banks" element={<Banks />} />

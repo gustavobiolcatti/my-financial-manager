@@ -1,8 +1,8 @@
-import { ref, set } from "firebase/database";
+import { ref, set } from 'firebase/database';
 
-import { db } from "services/firebase";
+import { db } from 'services/firebase';
 
-import { User } from "models/user";
+import { User } from 'models/user';
 
 type usePostUserReturn = Promise<void>;
 type usePostUserProps = {
@@ -11,7 +11,7 @@ type usePostUserProps = {
 
 const usePostUser = async ({ user }: usePostUserProps): usePostUserReturn => {
   try {
-    const docRef = ref(db, "users/" + user.id);
+    const docRef = ref(db, 'users/' + user.id);
 
     set(docRef, {
       id: user.id,
@@ -22,7 +22,7 @@ const usePostUser = async ({ user }: usePostUserProps): usePostUserReturn => {
   } catch (error) {
     const err = error as Error;
 
-    console.log("ERROR =>> ", err.message);
+    console.log('ERROR =>> ', err.message);
   }
 };
 

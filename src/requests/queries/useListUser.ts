@@ -1,8 +1,8 @@
-import { child, get, ref } from "firebase/database";
+import { child, get, ref } from 'firebase/database';
 
-import { db } from "services/firebase";
+import { db } from 'services/firebase';
 
-import { User } from "models/user";
+import { User } from 'models/user';
 
 type useListUserReturn = {
   data: User | null;
@@ -24,7 +24,7 @@ const useListUser = async ({
   } catch (error) {
     const err = error as Error;
 
-    console.log("ERROR =>> ", err.message);
+    console.log('ERROR =>> ', err.message);
   }
 
   return { data: null };

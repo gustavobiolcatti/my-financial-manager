@@ -1,14 +1,14 @@
-import { DataSnapshot, onValue, ref } from "firebase/database";
-import { useAuth } from "contexts/AuthContext";
+import { DataSnapshot, onValue, ref } from 'firebase/database';
+import { useAuth } from 'contexts/AuthContext';
 
-import { db } from "services/firebase";
+import { db } from 'services/firebase';
 
 type UseGetDataReturn = {
   getData: (
     path: string,
     callback: (snapshot: DataSnapshot) => void,
     useFullPath?: boolean,
-    onlyOnce?: boolean
+    onlyOnce?: boolean,
   ) => void;
 };
 
@@ -19,7 +19,7 @@ export const useGetData = (): UseGetDataReturn => {
     path: string,
     callback: (snapshot: DataSnapshot) => void,
     useFullPath = false,
-    onlyOnce = false
+    onlyOnce = false,
   ): void => {
     let getDbRef = ref(db, `users/${user?.id}/${path}`);
 
@@ -34,7 +34,7 @@ export const useGetData = (): UseGetDataReturn => {
       },
       {
         onlyOnce,
-      }
+      },
     );
   };
 

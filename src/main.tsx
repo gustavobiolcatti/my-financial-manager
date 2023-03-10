@@ -1,13 +1,13 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 
-import { GlobalStyle } from "./assets/css-global";
+import { GlobalStyle } from './assets/css-global';
 
-import Router from "./routes";
+import Router from './routes';
 
-createRoot(document.getElementById("root") as HTMLElement).render(
+createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <GlobalStyle />
     <Router />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

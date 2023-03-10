@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from "styled-components";
+import { createGlobalStyle, css } from 'styled-components';
 
 export const globalBodyStyle = css`
   *,
@@ -22,7 +22,7 @@ export const globalBodyStyle = css`
 
   body {
     overflow: hidden;
-    /* font-family: 'Pokemon Fire Red', sans-serif; */
+    font-family: 'Poppins', sans-serif;
   }
 
   html,
