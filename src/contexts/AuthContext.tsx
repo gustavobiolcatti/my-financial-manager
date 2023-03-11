@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
@@ -9,9 +8,12 @@ import {
 
 import { auth } from 'services/firebase';
 
+import { useToast } from 'hooks/useToast';
+
 import { User } from 'models/user';
 
-import usePostUser from 'requests/queries/usePostUser';
+import usePostUser from 'requests/mutations/usePostUser';
+import useGetData from 'requests/queries/useGetData';
 import useListUser from 'requests/queries/useListUser';
 
 type AuthContextType = {
@@ -20,7 +22,6 @@ type AuthContextType = {
   signInWithGoogle: () => void;
   logout: () => void;
 };
-
 type AuthProviderProps = {
   children: ReactNode;
 };
@@ -32,7 +33,8 @@ const AuthContext = createContext({} as AuthContextType);
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const navigate = useNavigate();
+  const { getData } = useGetData();
+  const { showToast } = useToast();
 
   onAuthStateChanged(auth, (data) => {
     if (!data || user) return;
@@ -45,7 +47,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     setUser(userData);
-    navigate('/dashboard');
   });
 
   const hasUserInDatabase = async (user: User): Promise<void> => {
@@ -59,9 +60,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const signInWithGoogle = (): void => {
     signInWithPopup(auth, provider)
       .then((data) => {
-        const credential = GoogleAuthProvider.credentialFromResult(data);
-        const token = credential?.accessToken;
-
         if (!data) return;
 
         const userData = {
@@ -73,6 +71,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
         hasUserInDatabase(userData);
         setUser(userData);
+
+        showToast({ type: 'success', message: 'Login realizado com sucesso' });
       })
       .catch((error) => {
         const err = error as Error;
@@ -80,7 +80,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       });
   };
 
-  const logout = () => {
+  const logout = (): void => {
     signOut(auth)
       .then(() => setUser(null))
       .catch((error) => {

@@ -1,4 +1,5 @@
-import { DataSnapshot, onValue, ref } from 'firebase/database';
+import { onValue, ref, DataSnapshot } from 'firebase/database';
+
 import { useAuth } from 'contexts/AuthContext';
 
 import { db } from 'services/firebase';
@@ -12,7 +13,7 @@ type UseGetDataReturn = {
   ) => void;
 };
 
-export const useGetData = (): UseGetDataReturn => {
+const useGetData = (): UseGetDataReturn => {
   const { user } = useAuth();
 
   const getData = (
@@ -21,14 +22,14 @@ export const useGetData = (): UseGetDataReturn => {
     useFullPath = false,
     onlyOnce = false,
   ): void => {
-    let getDbRef = ref(db, `users/${user?.id}/${path}`);
+    let dbRef = ref(db, `users/${user?.id}/${path}`);
 
     if (useFullPath) {
-      getDbRef = ref(db, path);
+      dbRef = ref(db, path);
     }
 
     onValue(
-      getDbRef,
+      dbRef,
       (snapshot) => {
         callback(snapshot);
       },
@@ -40,3 +41,5 @@ export const useGetData = (): UseGetDataReturn => {
 
   return { getData };
 };
+
+export default useGetData;

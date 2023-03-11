@@ -1,10 +1,10 @@
-import { ButtonProps } from "./types";
+import { ButtonProps } from './types';
 
-import * as S from "./styles";
+import * as S from './styles';
 
-const Button = ({ secondary, children, ...rest }: ButtonProps): JSX.Element => {
+const Button = ({ alert, children, ...rest }: ButtonProps): JSX.Element => {
   return (
-    <S.Button secondary={secondary} {...rest}>
+    <S.Button alert={alert} {...rest}>
       {children}
     </S.Button>
   );

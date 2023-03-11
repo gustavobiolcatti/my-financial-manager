@@ -1,23 +1,26 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
-import colors from "assets/colors";
+import colors from 'assets/colors';
 
-import { ButtonProps } from "./types";
+import { ButtonProps } from './types';
 
 export const Button = styled.button<ButtonProps>`
-  ${({ secondary }) => css`
+  ${({ alert }) => css`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 
     padding: 1em;
 
     border: none;
     border-radius: 10px;
 
-    background: ${colors.white};
+    background: ${alert ? colors.red : colors.white};
 
-    color: ${colors.black};
+    color: ${alert ? colors.white : colors.black};
+    font-size: 1em;
+    font-weight: 600;
+    text-align: center;
 
     box-shadow: 0 0 5px 0px ${colors.gray};
 
@@ -29,8 +32,8 @@ export const Button = styled.button<ButtonProps>`
       margin-right: 1em;
     }
 
-    :active {
-      transform: scale(0.95);
+    :hover {
+      transform: scale(0.98);
     }
   `}
 `;

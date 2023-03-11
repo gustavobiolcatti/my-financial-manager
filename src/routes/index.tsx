@@ -12,7 +12,7 @@ import Login from 'pages/Login';
 import Home from 'pages/Home';
 import Transations from 'pages/Transations';
 import Dashboard from 'pages/Dashboard';
-import Banks from 'pages/Banks';
+import Accounts from 'pages/Accounts';
 import Error from 'pages/Error';
 
 import PrivateRoutes from 'routes/PrivateRoutes';
@@ -38,7 +38,7 @@ const Router = (): JSX.Element => {
             >
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="transations" element={<Transations />} />
-              <Route path="banks" element={<Banks />} />
+              <Route path="Accounts" element={<Accounts />} />
             </Route>
           </Route>
         </Routes>

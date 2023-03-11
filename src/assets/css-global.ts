@@ -1,13 +1,22 @@
 import { createGlobalStyle, css } from 'styled-components';
 
+import colors from './colors';
+
 export const globalBodyStyle = css`
   *,
   ::before,
   ::after {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+
+    border: none;
+
+    background: none;
+
+    font-family: 'Poppins', sans-serif;
+
     outline: none;
+    box-sizing: border-box;
   }
 
   html {
@@ -22,7 +31,9 @@ export const globalBodyStyle = css`
 
   body {
     overflow: hidden;
-    font-family: 'Poppins', sans-serif;
+
+    color: ${colors.black};
+    background: ${colors.white};
   }
 
   html,
@@ -35,6 +46,10 @@ export const globalBodyStyle = css`
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  button {
+    font-size: 1em;
   }
 `;
 
