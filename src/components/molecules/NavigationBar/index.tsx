@@ -52,7 +52,7 @@ const NavigationBar = () => {
       >
         <S.LinkText>
           <RiBankLine size={24} />
-          <span>Bancos</span>
+          <span>Contas</span>
         </S.LinkText>
       </Link>
       <Link

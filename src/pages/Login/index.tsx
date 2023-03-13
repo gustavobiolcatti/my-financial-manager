@@ -6,6 +6,8 @@ import { useAuth } from 'contexts/AuthContext';
 
 import Button from 'components/atoms/Button';
 
+import logo from 'assets/img/my-financial-manager-logo.png';
+
 import * as S from './styles';
 
 const Login = (): JSX.Element => {
@@ -19,10 +21,14 @@ const Login = (): JSX.Element => {
 
   return (
     <S.Container>
-      <Button secondary onClick={signInWithGoogle}>
-        <FcGoogle size={24} />
-        Entrar com o Google
-      </Button>
+      <S.Content>
+        <S.Image src={logo} />
+        <S.LogoTitle>My Financial Manager</S.LogoTitle>
+        <Button secondary onClick={signInWithGoogle}>
+          <FcGoogle size={24} />
+          Entrar com o Google
+        </Button>
+      </S.Content>
     </S.Container>
   );
 };

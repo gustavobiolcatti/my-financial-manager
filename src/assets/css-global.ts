@@ -13,8 +13,6 @@ export const globalBodyStyle = css`
 
     background: none;
 
-    font-family: 'Poppins', sans-serif;
-
     outline: none;
     box-sizing: border-box;
   }
@@ -31,8 +29,11 @@ export const globalBodyStyle = css`
 
   body {
     overflow: hidden;
+    
+    font-family: 'Poppins', sans-serif;
 
     color: ${colors.black};
+
     background: ${colors.white};
   }
 
@@ -50,6 +51,7 @@ export const globalBodyStyle = css`
 
   button {
     font-size: 1em;
+    cursor: pointer;
   }
 `;
 

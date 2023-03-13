@@ -5,6 +5,7 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
+import { uuidv4 } from '@firebase/util';
 
 import { auth } from 'services/firebase';
 
@@ -53,7 +54,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     const { data: filteredUser } = await useListUser({ id: user.id });
 
     if (!filteredUser) {
-      await usePostUser({ user });
+      await usePostUser(user);
     }
   };
 
@@ -61,6 +62,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     signInWithPopup(auth, provider)
       .then((data) => {
         if (!data) return;
+
+        console.log(data);
 
         const userData = {
           id: data.user.uid,

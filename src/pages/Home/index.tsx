@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
 
 import NavigationBar from 'components/molecules/NavigationBar';
+import Header from 'components/atoms/Header';
 
 import * as S from './styles';
-import Header from 'components/atoms/Header';
 
 const Home = (): JSX.Element => {
   return (

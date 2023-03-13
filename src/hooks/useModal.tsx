@@ -2,12 +2,13 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
 import ExitModal from 'components/atoms/ExitModal';
+import NewAccountModal from 'components/atoms/NewAccountModal';
 
 type UseModalReturn = {
   showModal: ({ type, showModal, closeModal }: ModalProps) => JSX.Element;
 };
 type ModalProps = {
-  type?: 'exit';
+  type: 'exit' | 'new-account';
   showModal: boolean;
   closeModal: () => void;
 };
@@ -35,20 +36,18 @@ const useModal = (): UseModalReturn => {
     showModal,
     closeModal,
   }: ModalProps): JSX.Element => {
+    const modalType = {
+      exit: <ExitModal closeModal={closeModal} />,
+      'new-account': <NewAccountModal closeModal={closeModal} />,
+    };
+
     return (
       <Modal
         open={showModal}
         onClose={closeModal}
         aria-labelledby="modal-title"
       >
-        <Box sx={style}>
-          {(() => {
-            switch (type) {
-              case 'exit':
-                return <ExitModal closeModal={closeModal} />;
-            }
-          })()}
-        </Box>
+        <Box sx={style}>{modalType[type]}</Box>
       </Modal>
     );
   };

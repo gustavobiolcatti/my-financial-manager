@@ -5,11 +5,8 @@ import { db } from 'services/firebase';
 import { User } from 'models/user';
 
 type usePostUserReturn = Promise<void>;
-type usePostUserProps = {
-  user: User;
-};
 
-const usePostUser = async ({ user }: usePostUserProps): usePostUserReturn => {
+const usePostUser = async (user: User): usePostUserReturn => {
   try {
     const docRef = ref(db, 'users/' + user.id);
 

@@ -9,4 +9,25 @@ export const Container = styled.div`
 
   width: 100%;
   height: 100%;
+
+  /* background: ${colors.blue}; */
+`;
+
+export const Content = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  max-width: 50%;
+`;
+
+export const Image = styled.img`
+  width: 75px;
+  height: 75px;
+
+  margin-bottom: 0em;
+`;
+
+export const LogoTitle = styled.h1`
+  margin-bottom: 1em
 `;
