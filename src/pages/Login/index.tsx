@@ -19,7 +19,7 @@ const Login = (): JSX.Element => {
 
   return (
     <S.Container>
-      <Button onClick={signInWithGoogle}>
+      <Button secondary onClick={signInWithGoogle}>
         <FcGoogle size={24} />
         Entrar com o Google
       </Button>

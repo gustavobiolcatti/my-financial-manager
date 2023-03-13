@@ -5,12 +5,12 @@ import colors from 'assets/colors';
 import { ButtonProps } from './types';
 
 export const Button = styled.button<ButtonProps>`
-  ${({ alert }) => css`
+  ${({ secondary, alert }) => css`
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 1em;
+    padding: ${secondary ? '.75em 1em' : '0.5em 1em'};
 
     border: none;
     border-radius: 10px;
@@ -19,7 +19,7 @@ export const Button = styled.button<ButtonProps>`
 
     color: ${alert ? colors.white : colors.black};
     font-size: 1em;
-    font-weight: 600;
+    font-weight: ${secondary ? 400 : 600};
     text-align: center;
 
     box-shadow: 0 0 5px 0px ${colors.gray};
