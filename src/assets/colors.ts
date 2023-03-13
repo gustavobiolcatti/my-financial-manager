@@ -4,8 +4,9 @@ const colors = {
   black: '#161819',
   gray: '#a9adb4',
   green: '#00a14f',
-  red: '#ff0000',
   purple: '#9d71fe',
+  red: '#ff0000',
+  transparent: '#00000000',
   white: '#ffffff',
 };
 

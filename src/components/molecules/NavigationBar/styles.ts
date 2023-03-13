@@ -17,12 +17,14 @@ export const Container = styled.nav`
   background: ${colors.black};
 
   box-shadow: 0 0 15px -5px ${colors.black};
-
+  
   a,
   button {
     display: flex;
     align-items: center;
 
+    width: 100%;
+    
     padding: 0 1em;
 
     margin-bottom: 1em;
@@ -32,14 +34,29 @@ export const Container = styled.nav`
     :last-child {
       margin-bottom: 0;
     }
-  }
 
+    ::after {
+      content: '';
+      
+      height: 100%;
+      
+      border-radius: 10px 0 0 10px;
+      
+      transition: .2s;
+    }
+  }
+  
   .sellected-page {
+    padding-right: 0;
+
     span {
       color: ${colors.purple};
     }
-
-    border-right: 5px solid ${colors.purple};
+    
+    ::after {
+      margin-left: 1em;
+      border-left: 5px solid ${colors.purple};
+    }
   }
 `;
 
