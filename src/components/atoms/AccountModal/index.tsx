@@ -1,12 +1,11 @@
-import { useFormik } from 'formik';
 import { ref, set } from 'firebase/database';
-import { uuidv4 } from '@firebase/util';
+import { useFormik } from 'formik';
 
 import { useAuth } from 'contexts/AuthContext';
 
 import { db } from 'services/firebase';
 
-import usePostAccount from 'requests/mutations/usePostAccount';
+import { useToast } from 'hooks/useToast';
 
 import { Account } from 'models/account';
 
@@ -15,19 +14,24 @@ import Input from 'components/atoms/Input';
 import Select from 'components/atoms/Select';
 
 import * as S from './styles';
-import { useToast } from '../../../hooks/useToast';
 
-type NewAccountModalProps = {
+type AccountModalProps = {
+  id: string;
+  type: string;
   closeModal: () => void;
 };
 
-const NewAccountModal = ({ closeModal }: NewAccountModalProps): JSX.Element => {
+const AccountModal = ({
+  id,
+  type,
+  closeModal,
+}: AccountModalProps): JSX.Element => {
   const { user } = useAuth();
   const { showToast } = useToast();
 
   const formik = useFormik<Account>({
     initialValues: {
-      id: uuidv4(),
+      id,
       name: '',
       type: 'wallet',
       balance: 0,
@@ -43,20 +47,32 @@ const NewAccountModal = ({ closeModal }: NewAccountModalProps): JSX.Element => {
           balance: values.balance,
         });
 
-        showToast({ type: 'success', message: 'Conta criada com sucesso' });
+        const toastMessage =
+          type === 'new-account'
+            ? 'Conta criada com sucesso'
+            : 'Conta atualizada';
+
+        showToast({ type: 'success', message: toastMessage });
         closeModal();
       } catch (error) {
         const err = error as Error;
         console.log('ERROR => ', err.message);
 
-        showToast({ type: 'error', message: 'Erro ao criar conta' });
+        const toastMessage =
+          type === 'new-account'
+            ? 'Erro ao criar conta'
+            : 'Erro ao atualizar conta';
+
+        showToast({ type: 'error', message: toastMessage });
       }
     },
   });
 
   return (
     <S.Form onSubmit={formik.handleSubmit}>
-      <S.Title id="modal-title">Nova conta</S.Title>
+      <S.Title id="modal-title">
+        {type === 'new-account' ? 'Nova conta' : 'Editar conta'}
+      </S.Title>
 
       <S.Label htmlFor="name">Nome da conta</S.Label>
       <Input
@@ -100,4 +116,4 @@ const NewAccountModal = ({ closeModal }: NewAccountModalProps): JSX.Element => {
   );
 };
 
-export default NewAccountModal;
+export default AccountModal;
