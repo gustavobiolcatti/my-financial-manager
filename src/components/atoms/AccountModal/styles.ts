@@ -9,13 +9,15 @@ export const Form = styled.form`
 
 export const Title = styled.span`
   margin-bottom: 1em;
-  
+
   text-align: center;
   font-size: 1.5em;
 `;
 
 export const Label = styled.label`
-  font-size: .9em;
+  margin: 1.5em 0 0.5em 0;
+
+  font-size: 0.9em;
 `;
 
 export const ButtonContainer = styled.div`

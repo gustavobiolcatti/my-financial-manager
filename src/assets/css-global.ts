@@ -29,7 +29,7 @@ export const globalBodyStyle = css`
 
   body {
     overflow: hidden;
-    
+
     font-family: 'Poppins', sans-serif;
 
     color: ${colors.black};
@@ -47,6 +47,12 @@ export const globalBodyStyle = css`
   a {
     color: inherit;
     text-decoration: none;
+
+    :hover,
+    :active,
+    :visited {
+      text-decoration: none;
+    }
   }
 
   button {
