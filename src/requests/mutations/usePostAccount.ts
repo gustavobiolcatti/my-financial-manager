@@ -8,9 +8,7 @@ import { Account } from 'models/account';
 
 type usePostAccountReturn = Promise<void>;
 
-const usePostAccount = async (
-  account: Account
-): usePostAccountReturn => {
+const usePostAccount = async (account: Account): usePostAccountReturn => {
   const { user } = useAuth();
 
   try {

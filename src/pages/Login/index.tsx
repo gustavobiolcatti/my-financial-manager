@@ -6,7 +6,7 @@ import { useAuth } from 'contexts/AuthContext';
 
 import Button from 'components/atoms/Button';
 
-import logo from 'assets/img/my-financial-manager-logo.png';
+import Logo from 'assets/img/my-financial-manager-logo.png';
 
 import * as S from './styles';
 
@@ -22,7 +22,7 @@ const Login = (): JSX.Element => {
   return (
     <S.Container>
       <S.Content>
-        <S.Image src={logo} />
+        <S.Image src={Logo} />
         <S.LogoTitle>My Financial Manager</S.LogoTitle>
         <Button secondary onClick={signInWithGoogle}>
           <FcGoogle size={24} />

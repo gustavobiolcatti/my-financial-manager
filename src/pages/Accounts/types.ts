@@ -1,5 +1,10 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes } from 'react';
 
 export type CardProps = HTMLAttributes<HTMLDivElement> & {
-  newCard?: boolean
-}
+  newCard?: boolean;
+};
+
+export type CardBalanceProps = HTMLAttributes<HTMLParagraphElement> & {
+  negative?: boolean;
+  positive?: boolean;
+};

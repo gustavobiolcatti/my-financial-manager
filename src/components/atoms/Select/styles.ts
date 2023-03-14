@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import colors from "assets/colors";
+import colors from 'assets/colors';
 
-import { SelectProps } from "./types";
+import { SelectProps } from './types';
 
 export const Select = styled.select<SelectProps>`
   padding: 1em;

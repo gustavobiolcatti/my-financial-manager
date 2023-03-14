@@ -1,12 +1,14 @@
 const colors = {
+  'light-gray': '#f6f6f6',
+
   'dark-gray': '#292c2d',
 
   black: '#161819',
   blue: '#0d2140',
   gray: '#a9adb4',
-  green: '#00a14f',
+  green: '#1b9f5b',
   purple: '#9d71fe',
-  red: '#ff0000',
+  red: '#bd0000',
   white: '#ffffff',
 };
 

@@ -1,3 +1,4 @@
+import colors from 'assets/colors';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -12,4 +13,5 @@ export const Wrapper = styled.div`
   height: 100%;
 
   padding: 0 7em;
+  background: ${colors['light-gray']};
 `;
