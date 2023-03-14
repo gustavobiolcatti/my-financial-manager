@@ -6,6 +6,7 @@ import { GlobalStyle } from './assets/css-global';
 
 import Router from './routes';
 
+import 'rsuite/dist/rsuite.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 createRoot(document.getElementById('root') as HTMLElement).render(

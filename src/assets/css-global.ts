@@ -29,7 +29,7 @@ export const globalBodyStyle = css`
 
   body {
     overflow: hidden;
-    
+
     font-family: 'Poppins', sans-serif;
 
     color: ${colors.black};

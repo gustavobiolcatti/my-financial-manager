@@ -1,33 +1,39 @@
+import { useEffect } from 'react';
 import { ref, set } from 'firebase/database';
 import { useFormik } from 'formik';
+import { Input, SelectPicker } from 'rsuite';
 
 import { useAuth } from 'contexts/AuthContext';
 
 import { db } from 'services/firebase';
 
+import useGetData from 'requests/queries/useGetData';
+
 import { useToast } from 'hooks/useToast';
 
+import { accountTypeEnumTranslate } from 'models/enums/account-type-enum';
 import { Account } from 'models/account';
 
 import Button from 'components/atoms/Button';
-import Input from 'components/atoms/Input';
-import Select from 'components/atoms/Select';
+
+import colors from 'assets/colors';
 
 import * as S from './styles';
 
 type AccountModalProps = {
   id: string;
-  type: string;
+  modalType: string;
   closeModal: () => void;
 };
 
 const AccountModal = ({
   id,
-  type,
+  modalType,
   closeModal,
 }: AccountModalProps): JSX.Element => {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const { getData } = useGetData();
 
   const formik = useFormik<Account>({
     initialValues: {
@@ -48,7 +54,7 @@ const AccountModal = ({
         });
 
         const toastMessage =
-          type === 'new-account'
+          modalType === 'new-account'
             ? 'Conta criada com sucesso'
             : 'Conta atualizada';
 
@@ -59,7 +65,7 @@ const AccountModal = ({
         console.log('ERROR => ', err.message);
 
         const toastMessage =
-          type === 'new-account'
+          modalType === 'new-account'
             ? 'Erro ao criar conta'
             : 'Erro ao atualizar conta';
 
@@ -68,41 +74,63 @@ const AccountModal = ({
     },
   });
 
+  const selectData = ['wallet', 'bank', 'exchange'].map((item) => ({
+    label: accountTypeEnumTranslate(item),
+    value: item,
+  }));
+
+  useEffect(() => {
+    if (modalType === 'new-account') return;
+
+    getData(`/accounts/${id}`, (snapshot) => {
+      if (snapshot.exists()) {
+        const accountData = snapshot.val();
+
+        formik.setValues({
+          id: accountData.id,
+          name: accountData.name,
+          type: accountData.type,
+          balance: accountData.balance,
+        });
+      }
+    });
+  }, []);
+
   return (
     <S.Form onSubmit={formik.handleSubmit}>
       <S.Title id="modal-title">
-        {type === 'new-account' ? 'Nova conta' : 'Editar conta'}
+        {modalType === 'new-account' ? 'Nova conta' : 'Editar conta'}
       </S.Title>
 
       <S.Label htmlFor="name">Nome da conta</S.Label>
       <Input
         id="name"
-        description="name"
         type="text"
         value={formik.values.name}
-        onChange={formik.handleChange}
+        onChange={(value) => formik.setFieldValue('name', value)}
+        style={{
+          padding: '.5em',
+        }}
         required
       />
 
       <S.Label htmlFor="type">Tipo da conta</S.Label>
-      <Select
+      <SelectPicker
         id="type"
-        description="type"
+        data={selectData}
         value={formik.values.type}
-        onChange={formik.handleChange}
-      >
-        <option value="wallet" label="Carteira" />
-        <option value="bank" label="Banco" />
-        <option value="exchange" label="Corretora" />
-      </Select>
+        onChange={(value) => formik.setFieldValue('type', value)}
+        searchable={false}
+        style={{ color: colors.purple }}
+        menuStyle={{ zIndex: 1300, color: colors.purple }}
+      />
 
       <S.Label htmlFor="balance">Saldo inicial</S.Label>
       <Input
         id="balance"
-        description="balance"
         type="number"
         value={formik.values.balance}
-        onChange={formik.handleChange}
+        onChange={(value) => formik.setFieldValue('balance', value)}
         required
       />
 
