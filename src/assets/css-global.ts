@@ -47,12 +47,6 @@ export const globalBodyStyle = css`
   a {
     color: inherit;
     text-decoration: none;
-
-    :hover,
-    :active,
-    :visited {
-      text-decoration: none;
-    }
   }
 
   button {

@@ -1055,11 +1055,6 @@
   resolved "https://registry.npmjs.org/@remix-run/router/-/router-1.3.2.tgz"
   integrity sha512-t54ONhl/h75X94SWsHGQ4G/ZrCEguKSRQr7DrjTciJXW0YU1QhlwYeycvK5JgkzlxmvrK7wq1NB/PLtHxoiDcA==
 
-"@rsuite/formik@^1.0.0-beta.1":
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@rsuite/formik/-/formik-1.0.0-beta.1.tgz#7ea3d684367c1063e721682486cd41256d5c588e"
-  integrity sha512-Vz0c4eKkmi+x5OhByQrivmWvVB3REk0WSgHhLW5VW27HUr2ztlgO+CLFH4c4hPz3rw35qEma8EFOCT/lbuXQ3Q==
-
 "@rsuite/icon-font@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@rsuite/icon-font/-/icon-font-4.0.0.tgz#c4a772af5020bb3bbf74761879f80da23e914123"
