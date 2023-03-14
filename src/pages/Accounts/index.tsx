@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react';
+import { uuidv4 } from '@firebase/util';
 
 import useGetData from 'requests/queries/useGetData';
 
-import useModal from 'hooks/useModal';
-
-import { Account } from 'models/account';
 import { accountType } from 'models/enums/account-type';
+import { Account } from 'models/account';
+
+import ShowModal from 'components/molecules/Modal';
+import DeleteAccountModal from 'components/atoms/DeleteAccountModal';
+import AccountModal from 'components/atoms/AccountModal';
+import ActionButton from 'components/atoms/ActionButton';
 
 import * as S from './styles';
 
 const Accounts = (): JSX.Element => {
   const [accounts, setAccounts] = useState<Account[]>();
+  const [accountId, setAccountId] = useState('');
+
   const [openModal, setOpenModal] = useState(false);
+  const [modalType, setModalType] = useState('');
 
   const { getData } = useGetData();
-  const { showModal } = useModal();
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (id: string, type: string) => {
+    setModalType(type);
+    setAccountId(id);
     setOpenModal(true);
   };
 
@@ -42,7 +50,11 @@ const Accounts = (): JSX.Element => {
       <S.Container>
         <S.Accounts>
           <S.Card newCard>
-            <S.AddButton onClick={handleOpenModal}>+</S.AddButton>
+            <S.AddButton
+              onClick={() => handleOpenModal(uuidv4(), 'new-account')}
+            >
+              +
+            </S.AddButton>
           </S.Card>
           {accounts &&
             accounts.map((account) => (
@@ -54,7 +66,20 @@ const Accounts = (): JSX.Element => {
                       {accountType[account.type]}
                     </S.CardDescription>
                   </div>
-                  <S.Button />
+                  <S.ActionButtonWrapper>
+                    <ActionButton
+                      actionType="update"
+                      onClick={() =>
+                        handleOpenModal(account.id, 'update-account')
+                      }
+                    />
+                    <ActionButton
+                      actionType="delete"
+                      onClick={() =>
+                        handleOpenModal(account.id, 'delete-account')
+                      }
+                    />
+                  </S.ActionButtonWrapper>
                 </S.CardHeader>
                 <S.CardBalance
                   negative={account.balance < 0}
@@ -67,12 +92,19 @@ const Accounts = (): JSX.Element => {
         </S.Accounts>
         <S.Charts>Gráficos</S.Charts>
       </S.Container>
-      {openModal &&
-        showModal({
-          type: 'new-account',
-          showModal: openModal,
-          closeModal: handleCloseModal,
-        })}
+      {openModal && (
+        <ShowModal showModal={openModal} closeModal={handleCloseModal}>
+          {modalType !== 'delete-account' ? (
+            <AccountModal
+              type={modalType}
+              id={accountId}
+              closeModal={handleCloseModal}
+            />
+          ) : (
+            <DeleteAccountModal id={accountId} closeModal={handleCloseModal} />
+          )}
+        </ShowModal>
+      )}
     </>
   );
 };

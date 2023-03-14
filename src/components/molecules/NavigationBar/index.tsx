@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import { RiBankLine, RiPieChartLine, RiFileList3Line } from 'react-icons/ri';
 import { MdOutlineExitToApp } from 'react-icons/md';
 
-import useModal from 'hooks/useModal';
+import ShowModal from 'components/molecules/Modal';
+import ExitModal from 'components/atoms/ExitModal';
 
 import * as S from './styles';
 
 const NavigationBar = () => {
   const [openModal, setOpenModal] = useState(false);
-
-  const { showModal } = useModal();
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -74,12 +73,11 @@ const NavigationBar = () => {
         </S.LinkText>
       </S.Button>
 
-      {openModal &&
-        showModal({
-          type: 'exit',
-          showModal: openModal,
-          closeModal: handleCloseModal,
-        })}
+      {openModal && (
+        <ShowModal showModal={openModal} closeModal={handleCloseModal}>
+          <ExitModal closeModal={handleCloseModal} />
+        </ShowModal>
+      )}
     </S.Container>
   );
 };

@@ -5,7 +5,6 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import { uuidv4 } from '@firebase/util';
 
 import { auth } from 'services/firebase';
 
@@ -14,7 +13,6 @@ import { useToast } from 'hooks/useToast';
 import { User } from 'models/user';
 
 import usePostUser from 'requests/mutations/usePostUser';
-import useGetData from 'requests/queries/useGetData';
 import useListUser from 'requests/queries/useListUser';
 
 type AuthContextType = {
@@ -34,7 +32,6 @@ const AuthContext = createContext({} as AuthContextType);
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const { getData } = useGetData();
   const { showToast } = useToast();
 
   onAuthStateChanged(auth, (data) => {
@@ -75,7 +72,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         hasUserInDatabase(userData);
         setUser(userData);
 
-        showToast({ type: 'success', message: 'Login realizado com sucesso' });
+        showToast({ type: 'success', message: 'Login realizado' });
       })
       .catch((error) => {
         const err = error as Error;

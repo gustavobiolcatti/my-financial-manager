@@ -64,21 +64,6 @@ export const CardDescription = styled.p`
   font-size: 0.8em;
 `;
 
-export const Button = styled.button`
-  width: 25px;
-  height: 25px;
-
-  background: url(src/assets/img/trash.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  transition: 0.2s;
-
-  :hover {
-    transform: scale(0.9);
-  }
-`;
-
 export const CardBalance = styled.p<CardBalanceProps>`
   ${({ negative, positive }) => css`
     margin-top: 1em;
@@ -87,6 +72,10 @@ export const CardBalance = styled.p<CardBalanceProps>`
     color: ${positive ? colors.green : negative ? colors.red : colors.black};
     font-size: 3em;
   `}
+`;
+
+export const ActionButtonWrapper = styled.div`
+  display: flex;
 `;
 
 export const AddButton = styled.button`
@@ -102,4 +91,10 @@ export const AddButton = styled.button`
 
   color: ${colors.purple};
   font-size: 5em;
+
+  transition: 0.2s;
+
+  :hover {
+    transform: scale(0.98);
+  }
 `;
