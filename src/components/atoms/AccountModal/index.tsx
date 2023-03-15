@@ -46,11 +46,15 @@ const AccountModal = ({
       try {
         const docRef = ref(db, `users/${user?.id}/accounts/${values.id}`);
 
+        const formattedBalance = parseFloat(values.balance.toString()).toFixed(
+          2,
+        );
+
         set(docRef, {
           id: values.id,
           name: values.name,
           type: values.type,
-          balance: values.balance,
+          balance: formattedBalance,
         });
 
         const toastMessage =
@@ -136,7 +140,7 @@ const AccountModal = ({
 
       <S.ButtonContainer>
         <Button type="submit" alert>
-          Criar
+          {modalType === 'new-account' ? 'Criar' : 'Atualizar'}
         </Button>
         <Button onClick={closeModal}>Cancelar</Button>
       </S.ButtonContainer>
