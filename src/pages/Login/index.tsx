@@ -6,7 +6,7 @@ import { useAuth } from 'contexts/AuthContext';
 
 import Button from 'components/atoms/Button';
 
-import Logo from 'assets/img/my-financial-manager-logo.png';
+import Logo from 'assets/img/logo.svg';
 
 import * as S from './styles';
 
