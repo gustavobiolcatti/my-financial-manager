@@ -1,7 +1,9 @@
-import { useAuth } from 'contexts/AuthContext';
 import { ref, set } from 'firebase/database';
 
+import { useAuth } from 'contexts/AuthContext';
+
 import { db } from 'services/firebase';
+
 type UseGetDataReturn = {
   setData: (
     path: string,
@@ -22,8 +24,10 @@ export const useSetData = (): UseGetDataReturn => {
       db,
       useFullPath ? path : `users/${user?.id}/${path}`,
     );
-    set(databaseRef, values).catch((err) => {
-      const error = err as Error;
+
+    set(databaseRef, values).catch((error) => {
+      const err = error as Error;
+      console.log('ERROR =>> ', err.message);
     });
   };
 

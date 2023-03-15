@@ -16,7 +16,7 @@ export const Container = styled.nav`
 
   background: ${colors.black};
 
-  box-shadow: 0 0 15px ${colors.black};
+  box-shadow: 0 0 30px 5px ${colors.gray};
 
   z-index: 1;
 

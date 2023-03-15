@@ -8,7 +8,7 @@ export const Container = styled.div`
 
   gap: 64px;
 
-  padding: 2em 0;
+  padding: 1em 0;
 `;
 
 export const Transations = styled.div`

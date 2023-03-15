@@ -32,24 +32,23 @@ const AccountsWrapper = ({ accounts }: AccountsWrapperProps): JSX.Element => {
 
   return (
     <S.Container>
-      {accounts &&
-        accounts.map((account) => (
-          <Card
-            title={account.name}
-            description={accountTypeEnumTranslate(account.type) || ''}
-            balance={account.balance}
-            key={account.id}
-          >
-            <ActionButton
-              actionType="update"
-              onClick={() => handleOpenModal(account.id, 'update-account')}
-            />
-            <ActionButton
-              actionType="delete"
-              onClick={() => handleOpenModal(account.id, 'delete-account')}
-            />
-          </Card>
-        ))}
+      {accounts.map((account) => (
+        <Card
+          title={account.name}
+          description={accountTypeEnumTranslate(account.type) || ''}
+          balance={account.balance}
+          key={account.id}
+        >
+          <ActionButton
+            actionType="update"
+            onClick={() => handleOpenModal(account.id, 'update-account')}
+          />
+          <ActionButton
+            actionType="delete"
+            onClick={() => handleOpenModal(account.id, 'delete-account')}
+          />
+        </Card>
+      ))}
       {openModal && (
         <ShowModal showModal={openModal} closeModal={handleCloseModal}>
           {modalType !== 'delete-account' ? (

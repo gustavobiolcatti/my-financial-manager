@@ -13,6 +13,8 @@ export const Container = styled.div`
   border-radius: 10px;
 
   background: ${colors.white};
+
+  box-shadow: 0 0 2px ${colors.gray};
 `;
 
 export const Message = styled.p``;

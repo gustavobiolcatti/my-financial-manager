@@ -16,8 +16,6 @@ import { Account } from 'models/account';
 
 import Button from 'components/atoms/Button';
 
-import colors from 'assets/colors';
-
 import * as S from './styles';
 
 type AccountModalProps = {
@@ -78,7 +76,7 @@ const AccountModal = ({
     },
   });
 
-  const selectData = ['WALLET', 'BANK', 'EXCHANGE'].map((item) => ({
+  const accountSelectData = ['WALLET', 'BANK', 'EXCHANGE'].map((item) => ({
     label: accountTypeEnumTranslate(item),
     value: item,
   }));
@@ -121,12 +119,12 @@ const AccountModal = ({
       <S.Label htmlFor="type">Tipo da conta</S.Label>
       <SelectPicker
         id="type"
-        data={selectData}
+        data={accountSelectData}
         value={formik.values.type}
         onChange={(value) => formik.setFieldValue('type', value)}
         searchable={false}
-        style={{ color: colors.purple }}
-        menuStyle={{ zIndex: 1300, color: colors.purple }}
+        cleanable={false}
+        menuStyle={{ zIndex: 1300 }}
       />
 
       <S.Label htmlFor="balance">Saldo inicial</S.Label>
