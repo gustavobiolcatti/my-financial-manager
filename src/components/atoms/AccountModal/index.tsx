@@ -39,7 +39,7 @@ const AccountModal = ({
     initialValues: {
       id,
       name: '',
-      type: 'wallet',
+      type: 'WALLET',
       balance: 0,
     },
     onSubmit: (values) => {
@@ -74,7 +74,7 @@ const AccountModal = ({
     },
   });
 
-  const selectData = ['wallet', 'bank', 'exchange'].map((item) => ({
+  const selectData = ['WALLET', 'BANK', 'EXCHANGE'].map((item) => ({
     label: accountTypeEnumTranslate(item),
     value: item,
   }));

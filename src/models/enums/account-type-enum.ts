@@ -1,19 +1,19 @@
 export enum accountTypeEnum {
-  wallet = 'CARTEIRA',
-  bank = 'BANCO',
-  exchange = 'CORRETORA',
+  WALLET = 'CARTEIRA',
+  BANK = 'BANCO',
+  EXCHANGE = 'CORRETORA',
 }
 
 export const accountTypeEnumTranslate = (type: string) => {
   switch (type) {
-    case 'wallet':
-      return accountTypeEnum.wallet;
+    case 'WALLET':
+      return accountTypeEnum.WALLET;
 
-    case 'bank':
-      return accountTypeEnum.bank;
+    case 'BANK':
+      return accountTypeEnum.BANK;
 
-    case 'exchange':
-      return accountTypeEnum.exchange;
+    case 'EXCHANGE':
+      return accountTypeEnum.EXCHANGE;
 
     default:
       break;
