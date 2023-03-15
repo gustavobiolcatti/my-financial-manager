@@ -11,15 +11,6 @@ export const Container = styled.div`
   padding: 1em 0;
 `;
 
-export const Accounts = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-
-  gap: 16px;
-
-  grid-column: span 2;
-`;
-
 export const Charts = styled.div`
   padding: 1em;
 

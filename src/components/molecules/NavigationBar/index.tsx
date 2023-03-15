@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { RiBankLine, RiPieChartLine, RiFileList3Line } from 'react-icons/ri';
 import { MdOutlineExitToApp } from 'react-icons/md';
+import { TbTag } from 'react-icons/tb';
 
 import ShowModal from 'components/molecules/Modal';
 import ExitModal from 'components/atoms/ExitModal';
@@ -43,6 +44,7 @@ const NavigationBar = () => {
           <span>Dashboard</span>
         </S.LinkText>
       </Link>
+
       <Link
         to="/accounts"
         id="accounts"
@@ -54,6 +56,7 @@ const NavigationBar = () => {
           <span>Contas</span>
         </S.LinkText>
       </Link>
+
       <Link
         to="/transations"
         id="transations"
@@ -63,6 +66,18 @@ const NavigationBar = () => {
         <S.LinkText>
           <RiFileList3Line size={24} />
           <span>Transações</span>
+        </S.LinkText>
+      </Link>
+
+      <Link
+        to="/categories"
+        id="categories"
+        className="nav-link"
+        onClick={() => handleChangeSellectedPage('categories')}
+      >
+        <S.LinkText>
+          <TbTag size={24} />
+          <span>Categorias</span>
         </S.LinkText>
       </Link>
 

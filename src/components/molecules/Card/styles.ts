@@ -18,7 +18,7 @@ export const Card = styled.div<CardProps>`
 
     background: ${colors.white};
 
-    box-shadow: 0 0 2px ${colors.black};
+    box-shadow: 0 0 2px ${colors.gray};
   `}
 `;
 

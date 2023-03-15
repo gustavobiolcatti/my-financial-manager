@@ -8,12 +8,16 @@ import {
 
 import { auth } from 'services/firebase';
 
+import { useSetData } from 'requests/mutations/useSetData';
+import useListUser from 'requests/queries/useListUser';
+
 import { useToast } from 'hooks/useToast';
 
 import { User } from 'models/user';
-
-import usePostUser from 'requests/mutations/usePostUser';
-import useListUser from 'requests/queries/useListUser';
+import {
+  defaultExpenseCategories,
+  defaultIncomeCategories,
+} from 'models/category';
 
 type AuthContextType = {
   user: User | null;
@@ -32,6 +36,7 @@ const AuthContext = createContext({} as AuthContextType);
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
+  const { setData } = useSetData();
   const { showToast } = useToast();
 
   onAuthStateChanged(auth, (data) => {
@@ -47,11 +52,23 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(userData);
   });
 
+  const createUser = async (user: User): Promise<void> => {
+    const userData = {
+      ...user,
+      categories: {
+        expense: defaultExpenseCategories,
+        income: defaultIncomeCategories,
+      },
+    };
+
+    setData(`users/${user.id}`, userData, true);
+  };
+
   const hasUserInDatabase = async (user: User): Promise<void> => {
     const { data: filteredUser } = await useListUser({ id: user.id });
 
     if (!filteredUser) {
-      await usePostUser(user);
+      await createUser(user);
     }
   };
 
@@ -59,8 +76,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     signInWithPopup(auth, provider)
       .then((data) => {
         if (!data) return;
-
-        console.log(data);
 
         const userData = {
           id: data.user.uid,

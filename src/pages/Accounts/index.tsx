@@ -4,30 +4,23 @@ import { uuidv4 } from '@firebase/util';
 import useGetData from 'requests/queries/useGetData';
 
 import { Account } from 'models/account';
-import { accountTypeEnum } from 'models/enums/account-type-enum';
 
 import TitleContainer from 'components/molecules/TitleContainer';
 import ShowModal from 'components/molecules/Modal';
-import Card from 'components/molecules/Card';
-import DeleteAccountModal from 'components/atoms/DeleteAccountModal';
-import AccountModal from 'components/atoms/AccountModal';
-import ActionButton from 'components/atoms/ActionButton';
+import AccountsWrapper from 'components/molecules/AccountsWrapper';
+import EmptyBox from 'components/atoms/EmptyBox';
 import AddButton from 'components/atoms/AddButton';
+import AccountModal from 'components/atoms/AccountModal';
 
 import * as S from './styles';
 
 const Accounts = (): JSX.Element => {
   const [accounts, setAccounts] = useState<Account[]>();
-  const [accountId, setAccountId] = useState('');
-
   const [openModal, setOpenModal] = useState(false);
-  const [modalType, setModalType] = useState('');
 
   const { getData } = useGetData();
 
-  const handleOpenModal = (id: string, type: string) => {
-    setModalType(type);
-    setAccountId(id);
+  const handleOpenModal = () => {
     setOpenModal(true);
   };
 
@@ -50,43 +43,21 @@ const Accounts = (): JSX.Element => {
   return (
     <>
       <TitleContainer title="contas">
-        <AddButton onClick={() => handleOpenModal(uuidv4(), 'new-account')} />
+        <AddButton onClick={handleOpenModal} />
       </TitleContainer>
+
       <S.Container>
-        <S.Accounts>
-          {accounts &&
-            accounts.map((account) => (
-              <Card
-                title={account.name}
-                description={accountTypeEnum[account.type]}
-                balance={account.balance}
-                key={account.id}
-              >
-                <ActionButton
-                  actionType="update"
-                  onClick={() => handleOpenModal(account.id, 'update-account')}
-                />
-                <ActionButton
-                  actionType="delete"
-                  onClick={() => handleOpenModal(account.id, 'delete-account')}
-                />
-              </Card>
-            ))}
-        </S.Accounts>
+        {accounts ? <AccountsWrapper accounts={accounts} /> : <EmptyBox />}
         <S.Charts>Gráficos</S.Charts>
       </S.Container>
 
       {openModal && (
         <ShowModal showModal={openModal} closeModal={handleCloseModal}>
-          {modalType !== 'delete-account' ? (
-            <AccountModal
-              modalType={modalType}
-              id={accountId}
-              closeModal={handleCloseModal}
-            />
-          ) : (
-            <DeleteAccountModal id={accountId} closeModal={handleCloseModal} />
-          )}
+          <AccountModal
+            modalType="new-account"
+            id={uuidv4()}
+            closeModal={handleCloseModal}
+          />
         </ShowModal>
       )}
     </>

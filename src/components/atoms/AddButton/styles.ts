@@ -7,12 +7,16 @@ export const AddButton = styled.button`
   align-items: center;
   justify-content: center;
 
+  width: 40px;
+  height: 40px;
+
   margin-left: 0.5em;
 
-  border-radius: 50%;
+  border-radius: 5px;
 
   color: ${colors.purple};
   font-size: 3em;
+  font-weight: 100;
 
   transition: 0.2s;
 

@@ -19,17 +19,16 @@ const useGetData = (): UseGetDataReturn => {
   const getData = (
     path: string,
     callback: (snapshot: DataSnapshot) => void,
-    useFullPath = false,
-    onlyOnce = false,
+    useFullPath?: boolean,
+    onlyOnce?: boolean,
   ): void => {
-    let dbRef = ref(db, `users/${user?.id}/${path}`);
-
-    if (useFullPath) {
-      dbRef = ref(db, path);
-    }
+    const databaseRef = ref(
+      db,
+      useFullPath ? path : `users/${user?.id}/${path}`,
+    );
 
     onValue(
-      dbRef,
+      databaseRef,
       (snapshot) => {
         callback(snapshot);
       },

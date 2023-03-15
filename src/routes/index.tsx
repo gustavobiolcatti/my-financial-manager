@@ -8,12 +8,13 @@ import {
 
 import AuthProvider from 'contexts/AuthContext';
 
+import Error from 'pages/Error';
 import Login from 'pages/Login';
 import Home from 'pages/Home';
 import Transations from 'pages/Transations';
 import Dashboard from 'pages/Dashboard';
 import Accounts from 'pages/Accounts';
-import Error from 'pages/Error';
+import Categories from 'pages/Categories';
 
 import PrivateRoutes from 'routes/PrivateRoutes';
 
@@ -38,7 +39,8 @@ const Router = (): JSX.Element => {
             >
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="transations" element={<Transations />} />
-              <Route path="Accounts" element={<Accounts />} />
+              <Route path="accounts" element={<Accounts />} />
+              <Route path="categories" element={<Categories />} />
             </Route>
           </Route>
         </Routes>

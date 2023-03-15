@@ -22,7 +22,7 @@ export const Button = styled.button<ButtonProps>`
     font-weight: ${secondary ? 400 : 600};
     text-align: center;
 
-    box-shadow: 0 0 5px 0px ${colors.gray};
+    box-shadow: 0 0 3px ${colors.gray};
 
     transition: 0.2s;
 
