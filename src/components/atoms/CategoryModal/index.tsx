@@ -123,7 +123,6 @@ const CategoryModal = ({
             onChange={(value) => setCategoryType(value)}
             searchable={false}
             cleanable={false}
-            menuStyle={{ zIndex: 1300 }}
           />
         </>
       )}

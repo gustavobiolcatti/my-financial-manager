@@ -1,10 +1,9 @@
-import { Category } from 'models/category';
-
 export type Transation = {
-  value: number;
+  id: string;
+  value: number | string;
   date: Date;
-  description?: string;
-  type: 'expense' | 'income';
-  category: Category;
-  account: string;
+  type: 'EXPENSE' | 'INCOME';
+  categoryId: string;
+  description: string;
+  accountId: string;
 };

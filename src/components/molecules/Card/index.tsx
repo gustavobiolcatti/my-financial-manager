@@ -25,7 +25,7 @@ const Card = ({
         <S.ActionButtonWrapper>{children}</S.ActionButtonWrapper>
       </S.CardHeader>
       <S.CardBalance negative={balance < 0} positive={balance > 0}>
-        R$ {balance}
+        R$ {balance.toFixed(2)}
       </S.CardBalance>
     </S.Card>
   );
