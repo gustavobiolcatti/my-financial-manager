@@ -12,7 +12,7 @@ type UseGetDataReturn = {
   ) => void;
 };
 
-export const useSetData = (): UseGetDataReturn => {
+const useSetData = (): UseGetDataReturn => {
   const { user } = useAuth();
 
   const setData = (
@@ -33,3 +33,5 @@ export const useSetData = (): UseGetDataReturn => {
 
   return { setData };
 };
+
+export default useSetData;

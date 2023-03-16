@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SelectPicker } from 'rsuite';
+import { uuidv4 } from '@firebase/util';
 
 import useGetData from 'requests/queries/useGetData';
 
@@ -8,6 +9,7 @@ import { categoryTypeEnumTranslate } from 'models/enums/category-type-enum';
 
 import AddButton from 'components/atoms/AddButton';
 import EmptyBox from 'components/atoms/EmptyBox';
+import CategoryModal from 'components/atoms/CategoryModal';
 import TitleContainer from 'components/molecules/TitleContainer';
 import CategoriesTable from 'components/molecules/CategoriesTable';
 import ShowModal from 'components/molecules/Modal';
@@ -33,9 +35,12 @@ const Categories = (): JSX.Element => {
   const getCategories = (type: string | null): void => {
     if (!type) return;
 
-    getData(`/categories/${type.toLowerCase()}`, (snapshot) => {
+    const formattedCategoryType = type.toLowerCase();
+
+    getData(`/categories/${formattedCategoryType}`, (snapshot) => {
       const data = snapshot.val();
 
+      setCategoryType(type);
       setCategories(Object.values(data));
     });
   };
@@ -64,13 +69,21 @@ const Categories = (): JSX.Element => {
           cleanable={false}
         />
         {categories ? (
-          <CategoriesTable categories={categories} />
+          <CategoriesTable
+            categoryType={categoryType}
+            categories={categories}
+          />
         ) : (
           <EmptyBox />
         )}
         {openModal && (
           <ShowModal showModal={openModal} closeModal={handleCloseModal}>
-            <h1>modal</h1>
+            <CategoryModal
+              id={uuidv4()}
+              type={categoryType}
+              modalType="create"
+              closeModal={handleCloseModal}
+            />
           </ShowModal>
         )}
       </S.Container>

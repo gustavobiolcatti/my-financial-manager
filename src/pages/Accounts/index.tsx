@@ -54,8 +54,8 @@ const Accounts = (): JSX.Element => {
       {openModal && (
         <ShowModal showModal={openModal} closeModal={handleCloseModal}>
           <AccountModal
-            modalType="new-account"
             id={uuidv4()}
+            modalType="create"
             closeModal={handleCloseModal}
           />
         </ShowModal>

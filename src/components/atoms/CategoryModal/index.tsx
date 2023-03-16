@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { Input, SelectPicker } from 'rsuite';
 
@@ -7,49 +7,49 @@ import useSetData from 'requests/mutations/useSetData';
 
 import { useToast } from 'hooks/useToast';
 
-import { accountTypeEnumTranslate } from 'models/enums/account-type-enum';
-import { Account } from 'models/account';
+import { Category } from 'models/category';
+import { categoryTypeEnumTranslate } from 'models/enums/category-type-enum';
 
 import Button from 'components/atoms/Button';
 
 import * as S from './styles';
 
-type AccountModalProps = {
+type CategoryModalProps = {
   id: string;
+  type: string | null;
   modalType: 'create' | 'update';
   closeModal: () => void;
 };
 
-const AccountModal = ({
+const CategoryModal = ({
   id,
+  type,
   modalType,
   closeModal,
-}: AccountModalProps): JSX.Element => {
+}: CategoryModalProps): JSX.Element => {
+  const [categoryType, setCategoryType] = useState<string | null>(type);
+
   const { showToast } = useToast();
   const { getData } = useGetData();
   const { setData } = useSetData();
 
-  const formik = useFormik<Account>({
+  const formik = useFormik<Category>({
     initialValues: {
       id,
       name: '',
-      type: 'WALLET',
-      balance: 0,
+      color: '#000000',
     },
     onSubmit: (values) => {
       try {
-        const formattedBalance = parseFloat(values.balance.toString()).toFixed(
-          2,
-        );
-
         const data = {
           id: values.id,
           name: values.name,
-          type: values.type,
-          balance: formattedBalance,
+          color: values.color,
         };
 
-        setData(`/accounts/${values.id}`, data);
+        const formattedCategoryType = categoryType?.toLowerCase();
+
+        setData(`/categories/${formattedCategoryType}/${values.id}`, data);
 
         const toastMessage =
           modalType === 'create'
@@ -72,23 +72,24 @@ const AccountModal = ({
     },
   });
 
-  const accountSelectData = ['WALLET', 'BANK', 'EXCHANGE'].map((item) => ({
-    label: accountTypeEnumTranslate(item),
+  const categorySelectData = ['EXPENSE', 'INCOME'].map((item) => ({
+    label: categoryTypeEnumTranslate(item),
     value: item,
   }));
 
   useEffect(() => {
     if (modalType === 'create') return;
 
-    getData(`/accounts/${id}`, (snapshot) => {
+    const formattedCategoryType = categoryType?.toLowerCase();
+
+    getData(`/categories/${formattedCategoryType}/${id}`, (snapshot) => {
       if (snapshot.exists()) {
-        const accountData = snapshot.val();
+        const categoryData = snapshot.val();
 
         formik.setValues({
-          id: accountData.id,
-          name: accountData.name,
-          type: accountData.type,
-          balance: accountData.balance,
+          id: categoryData.id,
+          name: categoryData.name,
+          color: categoryData.color,
         });
       }
     });
@@ -100,7 +101,7 @@ const AccountModal = ({
         {modalType === 'create' ? 'Nova conta' : 'Editar conta'}
       </S.Title>
 
-      <S.Label htmlFor="name">Nome da conta</S.Label>
+      <S.Label htmlFor="name">Nome da categoria</S.Label>
       <Input
         id="name"
         type="text"
@@ -112,24 +113,28 @@ const AccountModal = ({
         required
       />
 
-      <S.Label htmlFor="type">Tipo da conta</S.Label>
-      <SelectPicker
-        id="type"
-        data={accountSelectData}
-        value={formik.values.type}
-        onChange={(value) => formik.setFieldValue('type', value)}
-        searchable={false}
-        cleanable={false}
-        menuStyle={{ zIndex: 1300 }}
-      />
+      {modalType !== 'update' && (
+        <>
+          <S.Label htmlFor="type">Tipo da categoria</S.Label>
+          <SelectPicker
+            id="type"
+            data={categorySelectData}
+            value={categoryType}
+            onChange={(value) => setCategoryType(value)}
+            searchable={false}
+            cleanable={false}
+            menuStyle={{ zIndex: 1300 }}
+          />
+        </>
+      )}
 
-      <S.Label htmlFor="balance">Saldo inicial</S.Label>
+      <S.Label htmlFor="color">Saldo inicial</S.Label>
       <Input
-        id="balance"
-        type="number"
-        value={formik.values.balance}
-        onChange={(value) => formik.setFieldValue('balance', value)}
-        required
+        id="color"
+        type="color"
+        value={formik.values.color}
+        onChange={(value) => formik.setFieldValue('color', value)}
+        style={{ height: '3em' }}
       />
 
       <S.ButtonContainer>
@@ -142,4 +147,4 @@ const AccountModal = ({
   );
 };
 
-export default AccountModal;
+export default CategoryModal;

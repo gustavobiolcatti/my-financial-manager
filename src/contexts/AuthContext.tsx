@@ -8,16 +8,12 @@ import {
 
 import { auth } from 'services/firebase';
 
-import { useSetData } from 'requests/mutations/useSetData';
-import useListUser from 'requests/queries/useListUser';
+import useSetData from 'requests/mutations/useSetData';
+import useGetData from 'requests/queries/useGetData';
 
 import { useToast } from 'hooks/useToast';
 
 import { User } from 'models/user';
-import {
-  defaultExpenseCategories,
-  defaultIncomeCategories,
-} from 'models/category';
 
 type AuthContextType = {
   user: User | null;
@@ -36,6 +32,7 @@ const AuthContext = createContext({} as AuthContextType);
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
+  const { getData } = useGetData();
   const { setData } = useSetData();
   const { showToast } = useToast();
 
@@ -53,23 +50,34 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   });
 
   const createUser = async (user: User): Promise<void> => {
-    const userData = {
-      ...user,
-      categories: {
-        expense: defaultExpenseCategories,
-        income: defaultIncomeCategories,
-      },
-    };
+    await getData(
+      '/configs/categories',
+      (snapshot) => {
+        const categories = snapshot.val();
 
-    setData(`users/${user.id}`, userData, true);
+        const userData = {
+          ...user,
+          categories,
+        };
+
+        setData(`users/${user.id}`, userData, true);
+      },
+      true,
+      true,
+    );
   };
 
-  const hasUserInDatabase = async (user: User): Promise<void> => {
-    const { data: filteredUser } = await useListUser({ id: user.id });
-
-    if (!filteredUser) {
-      await createUser(user);
-    }
+  const hasUserInDatabase = (user: User): void => {
+    getData(
+      `/users/${user.id}`,
+      async (snapshot) => {
+        if (!snapshot.exists()) {
+          await createUser(user);
+        }
+      },
+      true,
+      true,
+    );
   };
 
   const signInWithGoogle = (): void => {

@@ -20,7 +20,7 @@ const AccountsWrapper = ({ accounts }: AccountsWrapperProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState('');
 
-  const handleOpenModal = (id: string, type: string) => {
+  const handleOpenModal = (id: string, type: 'delete' | 'update') => {
     setModalType(type);
     setAccountId(id);
     setOpenModal(true);
@@ -41,19 +41,19 @@ const AccountsWrapper = ({ accounts }: AccountsWrapperProps): JSX.Element => {
         >
           <ActionButton
             actionType="update"
-            onClick={() => handleOpenModal(account.id, 'update-account')}
+            onClick={() => handleOpenModal(account.id, 'update')}
           />
           <ActionButton
             actionType="delete"
-            onClick={() => handleOpenModal(account.id, 'delete-account')}
+            onClick={() => handleOpenModal(account.id, 'delete')}
           />
         </Card>
       ))}
       {openModal && (
         <ShowModal showModal={openModal} closeModal={handleCloseModal}>
-          {modalType !== 'delete-account' ? (
+          {modalType === 'update' ? (
             <AccountModal
-              modalType={modalType}
+              modalType="update"
               id={accountId}
               closeModal={handleCloseModal}
             />
