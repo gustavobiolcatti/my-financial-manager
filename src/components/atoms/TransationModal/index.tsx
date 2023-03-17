@@ -13,11 +13,13 @@ import { transationTypeEnumTranslate } from 'models/enums/transation-type-enum';
 import { Category } from 'models/category';
 
 import Button from 'components/atoms/Button';
+import FormLabel from 'components/atoms/FormLabel';
+import Form from 'components/molecules/Form';
+import InputGroup from 'components/molecules/InputGroup';
+import ButtonWrapper from 'components/molecules/ButtonWrapper';
 
 import { capitalizeFirstLetterOfEachWorlds } from 'utils/capitalizeFirstLetterOfEachWorlds';
 import { formatDateWithDateFns } from 'utils/formatDate';
-
-import * as S from './styles';
 
 type TransationModalProps = {
   id: string;
@@ -209,78 +211,89 @@ const TransationModal = ({
   }, []);
 
   return (
-    <S.Form onSubmit={formik.handleSubmit}>
-      <S.Title id="modal-title">
-        {modalType === 'create' ? 'Nova transação' : 'Editar transação'}
-      </S.Title>
+    <Form
+      title={modalType === 'create' ? 'Nova transação' : 'Editar transação'}
+      onSubmit={formik.handleSubmit}
+    >
+      <InputGroup>
+        <FormLabel htmlFor="value">Valor</FormLabel>
+        <Input
+          id="value"
+          type="number"
+          placeholder="R$ 0.00"
+          value={formik.values.value}
+          onChange={(value) => formik.setFieldValue('value', value)}
+          style={{
+            padding: '.5em',
+          }}
+          required
+        />
+      </InputGroup>
 
-      <S.Label htmlFor="value">Valor</S.Label>
-      <Input
-        id="value"
-        type="number"
-        placeholder="R$ 0.00"
-        value={formik.values.value}
-        onChange={(value) => formik.setFieldValue('value', value)}
-        style={{
-          padding: '.5em',
-        }}
-        required
-      />
+      <InputGroup>
+        <FormLabel htmlFor="description">Descrição</FormLabel>
+        <Input
+          id="description"
+          type="description"
+          value={formik.values.description}
+          onChange={(value) => formik.setFieldValue('description', value)}
+        />
+      </InputGroup>
 
-      <S.Label htmlFor="date">Data</S.Label>
-      <DatePicker
-        id="date"
-        format="yyyy-MM-dd"
-        value={formik.values.date}
-        onChange={(value) => formik.setFieldValue('date', value)}
-        cleanable={false}
-      />
+      <InputGroup singleColumn>
+        <FormLabel htmlFor="date">Data</FormLabel>
+        <DatePicker
+          id="date"
+          format="yyyy-MM-dd"
+          value={formik.values.date}
+          onChange={(value) => formik.setFieldValue('date', value)}
+          cleanable={false}
+        />
+      </InputGroup>
 
-      <S.Label htmlFor="type">Tipo</S.Label>
-      <SelectPicker
-        id="type"
-        data={transationSelectData}
-        value={formik.values.type}
-        onChange={(value) => formik.setFieldValue('type', value)}
-        searchable={false}
-        cleanable={false}
-      />
+      <InputGroup singleColumn>
+        <FormLabel htmlFor="accountId">Conta</FormLabel>
+        <SelectPicker
+          id="accountId"
+          data={accountSelectData}
+          value={formik.values.accountId}
+          onChange={(value) => formik.setFieldValue('accountId', value)}
+          searchable={false}
+          cleanable={false}
+        />
+      </InputGroup>
 
-      <S.Label htmlFor="categoryId">Categoria</S.Label>
-      <SelectPicker
-        id="categoryId"
-        data={categorySelectData}
-        value={formik.values.categoryId}
-        onChange={(value) => formik.setFieldValue('categoryId', value)}
-        searchable={false}
-        cleanable={false}
-      />
+      <InputGroup singleColumn>
+        <FormLabel htmlFor="type">Tipo</FormLabel>
+        <SelectPicker
+          id="type"
+          data={transationSelectData}
+          value={formik.values.type}
+          onChange={(value) => formik.setFieldValue('type', value)}
+          searchable={false}
+          cleanable={false}
+        />
+      </InputGroup>
 
-      <S.Label htmlFor="description">Descrição</S.Label>
-      <Input
-        id="description"
-        type="description"
-        value={formik.values.description}
-        onChange={(value) => formik.setFieldValue('description', value)}
-      />
+      <InputGroup singleColumn>
+        <FormLabel htmlFor="categoryId">Categoria</FormLabel>
+        <SelectPicker
+          id="categoryId"
+          data={categorySelectData}
+          value={formik.values.categoryId}
+          onChange={(value) => formik.setFieldValue('categoryId', value)}
+          searchable={false}
+          cleanable={false}
+        />
+      </InputGroup>
 
-      <S.Label htmlFor="accountId">Conta</S.Label>
-      <SelectPicker
-        id="accountId"
-        data={accountSelectData}
-        value={formik.values.accountId}
-        onChange={(value) => formik.setFieldValue('accountId', value)}
-        searchable={false}
-        cleanable={false}
-      />
-
-      <S.ButtonContainer>
+      <ButtonWrapper>
         <Button type="submit" alert>
           {modalType === 'create' ? 'Criar' : 'Atualizar'}
         </Button>
         <Button onClick={closeModal}>Cancelar</Button>
-      </S.ButtonContainer>
-    </S.Form>
+      </ButtonWrapper>
+    </Form>
   );
 };
 

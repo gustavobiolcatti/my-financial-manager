@@ -11,8 +11,10 @@ import { Category } from 'models/category';
 import { categoryTypeEnumTranslate } from 'models/enums/category-type-enum';
 
 import Button from 'components/atoms/Button';
-
-import * as S from './styles';
+import FormLabel from 'components/atoms/FormLabel';
+import Form from 'components/molecules/Form';
+import InputGroup from 'components/molecules/InputGroup';
+import ButtonWrapper from 'components/molecules/ButtonWrapper';
 
 type CategoryModalProps = {
   id: string;
@@ -46,6 +48,7 @@ const CategoryModal = ({
           id: values.id,
           name: values.name,
           color: values.color,
+          active: Boolean(true),
         };
 
         const formattedCategoryType = categoryType?.toLowerCase();
@@ -83,13 +86,13 @@ const CategoryModal = ({
 
     getData(`/categories/${formattedCategoryType}/${id}`, (snapshot) => {
       if (snapshot.exists()) {
-        const categoryData = snapshot.val();
+        const categoryData: Category = snapshot.val();
 
         formik.setValues({
           id: categoryData.id,
           name: categoryData.name,
           color: categoryData.color,
-          active: Boolean(true),
+          active: Boolean(categoryData.active),
         });
       }
     });
@@ -102,26 +105,27 @@ const CategoryModal = ({
   }, []);
 
   return (
-    <S.Form onSubmit={formik.handleSubmit}>
-      <S.Title id="modal-title">
-        {modalType === 'create' ? 'Nova conta' : 'Editar conta'}
-      </S.Title>
-
-      <S.Label htmlFor="name">Nome da categoria</S.Label>
-      <Input
-        id="name"
-        type="text"
-        value={formik.values.name}
-        onChange={(value) => formik.setFieldValue('name', value)}
-        style={{
-          padding: '.5em',
-        }}
-        required
-      />
+    <Form
+      title={modalType === 'create' ? 'Nova categoria' : 'Editar categoria'}
+      onSubmit={formik.handleSubmit}
+    >
+      <InputGroup>
+        <FormLabel htmlFor="name">Nome</FormLabel>
+        <Input
+          id="name"
+          type="text"
+          value={formik.values.name}
+          onChange={(value) => formik.setFieldValue('name', value)}
+          style={{
+            padding: '.5em',
+          }}
+          required
+        />
+      </InputGroup>
 
       {modalType !== 'update' && (
-        <>
-          <S.Label htmlFor="type">Tipo da categoria</S.Label>
+        <InputGroup singleColumn>
+          <FormLabel htmlFor="type">Tipo</FormLabel>
           <SelectPicker
             id="type"
             data={categorySelectData}
@@ -130,25 +134,27 @@ const CategoryModal = ({
             searchable={false}
             cleanable={false}
           />
-        </>
+        </InputGroup>
       )}
 
-      <S.Label htmlFor="color">Saldo inicial</S.Label>
-      <Input
-        id="color"
-        type="color"
-        value={formik.values.color}
-        onChange={(value) => formik.setFieldValue('color', value)}
-        style={{ height: '3em' }}
-      />
+      <InputGroup singleColumn={modalType !== 'update'}>
+        <FormLabel htmlFor="color">Cor</FormLabel>
+        <Input
+          id="color"
+          type="color"
+          value={formik.values.color}
+          onChange={(value) => formik.setFieldValue('color', value)}
+          style={{ height: '3em' }}
+        />
+      </InputGroup>
 
-      <S.ButtonContainer>
+      <ButtonWrapper>
         <Button type="submit" alert>
           {modalType === 'create' ? 'Criar' : 'Atualizar'}
         </Button>
         <Button onClick={closeModal}>Cancelar</Button>
-      </S.ButtonContainer>
-    </S.Form>
+      </ButtonWrapper>
+    </Form>
   );
 };
 
