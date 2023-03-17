@@ -17,14 +17,14 @@ const CategoriesTable = ({
   categories,
   categoryType,
 }: CategoriesTableProps): JSX.Element => {
-  const [categoryId, setCategoryId] = useState('');
+  const [category, setCategory] = useState<Category>();
 
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState('');
 
-  const handleOpenModal = (id: string, type: 'delete' | 'update') => {
+  const handleOpenModal = (category: Category, type: 'delete' | 'update') => {
     setModalType(type);
-    setCategoryId(id);
+    setCategory(category);
     setOpenModal(true);
   };
 
@@ -53,11 +53,11 @@ const CategoriesTable = ({
                 <S.ActionButtonWrapper>
                   <ActionButton
                     actionType="update"
-                    onClick={() => handleOpenModal(category.id, 'update')}
+                    onClick={() => handleOpenModal(category, 'update')}
                   />
                   <ActionButton
                     actionType="delete"
-                    onClick={() => handleOpenModal(category.id, 'delete')}
+                    onClick={() => handleOpenModal(category, 'delete')}
                   />
                 </S.ActionButtonWrapper>
               </S.TableColumn>
@@ -67,19 +67,21 @@ const CategoriesTable = ({
       </S.Table>
       {openModal && (
         <ShowModal showModal={openModal} closeModal={handleCloseModal}>
-          {modalType === 'update' ? (
+          {modalType === 'update' && category ? (
             <CategoryModal
-              id={categoryId}
+              id={category.id}
               modalType="update"
               type={categoryType}
               closeModal={handleCloseModal}
             />
           ) : (
-            <DeleteCategoryModal
-              id={categoryId}
-              categoryType={categoryType}
-              closeModal={handleCloseModal}
-            />
+            category && (
+              <DeleteCategoryModal
+                category={category}
+                categoryType={categoryType}
+                closeModal={handleCloseModal}
+              />
+            )
           )}
         </ShowModal>
       )}
