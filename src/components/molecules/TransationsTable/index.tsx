@@ -27,7 +27,6 @@ const TransationsTable = ({
   transations,
 }: TransationsTableProps): JSX.Element => {
   const [transation, setTransation] = useState<Transation>();
-  const [transationId, setTransationId] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState('');
@@ -38,7 +37,6 @@ const TransationsTable = ({
   ) => {
     setModalType(type);
     setTransation(transation);
-    setTransationId(transation.id);
     setOpenModal(true);
   };
 
@@ -102,8 +100,7 @@ const TransationsTable = ({
         <ShowModal showModal={openModal} closeModal={() => setOpenModal(false)}>
           {modalType === 'update' ? (
             <TransationModal
-              id={transationId}
-              transationDate={transationDate}
+              transation={transation}
               modalType="update"
               closeModal={() => setOpenModal(false)}
             />

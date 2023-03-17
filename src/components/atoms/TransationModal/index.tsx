@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
+import { uuidv4 } from '@firebase/util';
 import { DatePicker, Input, SelectPicker } from 'rsuite';
 
 import useGetData from 'requests/queries/useGetData';
@@ -22,15 +23,13 @@ import { capitalizeFirstLetterOfEachWorlds } from 'utils/capitalizeFirstLetterOf
 import { formatDateWithDateFns } from 'utils/formatDate';
 
 type TransationModalProps = {
-  id: string;
-  transationDate?: Date | null;
+  transation?: Transation;
   modalType: 'create' | 'update';
   closeModal: () => void;
 };
 
 const TransationModal = ({
-  id,
-  transationDate,
+  transation,
   modalType,
   closeModal,
 }: TransationModalProps): JSX.Element => {
@@ -51,7 +50,7 @@ const TransationModal = ({
 
   const formik = useFormik<Transation>({
     initialValues: {
-      id,
+      id: uuidv4(),
       date: new Date(),
       type: 'EXPENSE',
       categoryId: '',
@@ -167,27 +166,17 @@ const TransationModal = ({
     });
   };
 
-  const fillTransationFormik = (id: string): void => {
-    if (!transationDate) return;
+  const fillTransationFormik = (): void => {
+    if (!transation) return;
 
-    const urlFormattedDate = formatDateWithDateFns(transationDate, 'MM-yyyy');
-
-    getData(`/transations/${urlFormattedDate}/${id}`, (snapshot) => {
-      if (snapshot.exists()) {
-        const transationData = snapshot.val();
-
-        console.log(transationData);
-
-        formik.setValues({
-          id: transationData.id,
-          date: new Date(transationData.date),
-          type: transationData.type,
-          categoryId: transationData.categoryId,
-          description: transationData.description || '-',
-          accountId: transationData.accountId,
-          value: Number(transationData.value),
-        });
-      }
+    formik.setValues({
+      id: transation.id,
+      date: new Date(transation.date),
+      type: transation.type,
+      categoryId: transation.categoryId,
+      description: transation.description || '-',
+      accountId: transation.accountId,
+      value: Number(transation.value),
     });
   };
 
@@ -206,7 +195,7 @@ const TransationModal = ({
     getAccounts();
 
     if (modalType === 'update') {
-      fillTransationFormik(id);
+      fillTransationFormik();
     }
   }, []);
 

@@ -49,7 +49,7 @@ const AccountsWrapper = ({ accounts }: AccountsWrapperProps): JSX.Element => {
         <ShowModal showModal={openModal} closeModal={() => setOpenModal(false)}>
           {modalType === 'update' && account ? (
             <AccountModal
-              id={account.id}
+              account={account}
               modalType="update"
               closeModal={() => setOpenModal(false)}
             />

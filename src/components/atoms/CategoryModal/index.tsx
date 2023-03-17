@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
+import { uuidv4 } from '@firebase/util';
 import { Input, SelectPicker } from 'rsuite';
 
-import useGetData from 'requests/queries/useGetData';
 import useSetData from 'requests/mutations/useSetData';
 
 import { useToast } from 'hooks/useToast';
@@ -17,14 +17,14 @@ import InputGroup from 'components/molecules/InputGroup';
 import ButtonWrapper from 'components/molecules/ButtonWrapper';
 
 type CategoryModalProps = {
-  id: string;
+  category?: Category;
   type: string | null;
   modalType: 'create' | 'update';
   closeModal: () => void;
 };
 
 const CategoryModal = ({
-  id,
+  category,
   type,
   modalType,
   closeModal,
@@ -32,12 +32,11 @@ const CategoryModal = ({
   const [categoryType, setCategoryType] = useState<string | null>(type);
 
   const { showToast } = useToast();
-  const { getData } = useGetData();
   const { setData } = useSetData();
 
   const formik = useFormik<Category>({
     initialValues: {
-      id,
+      id: uuidv4(),
       name: '',
       color: '#000000',
       active: true,
@@ -81,26 +80,20 @@ const CategoryModal = ({
     value: item,
   }));
 
-  const fillCategoryFormik = (id: string): void => {
-    const formattedCategoryType = categoryType?.toLowerCase();
+  const fillCategoryFormik = (): void => {
+    if (!category) return;
 
-    getData(`/categories/${formattedCategoryType}/${id}`, (snapshot) => {
-      if (snapshot.exists()) {
-        const categoryData: Category = snapshot.val();
-
-        formik.setValues({
-          id: categoryData.id,
-          name: categoryData.name,
-          color: categoryData.color,
-          active: Boolean(categoryData.active),
-        });
-      }
+    formik.setValues({
+      id: category.id,
+      name: category.name,
+      color: category.color,
+      active: Boolean(category.active),
     });
   };
 
   useEffect(() => {
     if (modalType === 'update') {
-      fillCategoryFormik(id);
+      fillCategoryFormik();
     }
   }, []);
 

@@ -69,7 +69,7 @@ const CategoriesTable = ({
         <ShowModal showModal={openModal} closeModal={handleCloseModal}>
           {modalType === 'update' && category ? (
             <CategoryModal
-              id={category.id}
+              category={category}
               modalType="update"
               type={categoryType}
               closeModal={handleCloseModal}

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { DatePicker, SelectPicker } from 'rsuite';
-import { uuidv4 } from '@firebase/util';
 
 import useGetData from 'requests/queries/useGetData';
 
@@ -141,7 +140,7 @@ const Transations = (): JSX.Element => {
           <EmptyBox />
         )}
 
-        {/* <S.Charts>Gráficos</S.Charts> */}
+        <S.Charts>Gráficos</S.Charts>
 
         {openModal && (
           <ShowModal
@@ -149,7 +148,6 @@ const Transations = (): JSX.Element => {
             closeModal={() => setOpenModal(false)}
           >
             <TransationModal
-              id={uuidv4()}
               modalType="create"
               closeModal={() => setOpenModal(false)}
             />

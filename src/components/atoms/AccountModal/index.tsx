@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
+import { uuidv4 } from '@firebase/util';
 import { Input, SelectPicker } from 'rsuite';
 
-import useGetData from 'requests/queries/useGetData';
 import useSetData from 'requests/mutations/useSetData';
 
 import { useToast } from 'hooks/useToast';
@@ -17,23 +17,22 @@ import InputGroup from 'components/molecules/InputGroup';
 import ButtonWrapper from 'components/molecules/ButtonWrapper';
 
 type AccountModalProps = {
-  id: string;
+  account?: Account;
   modalType: 'create' | 'update';
   closeModal: () => void;
 };
 
 const AccountModal = ({
-  id,
+  account,
   modalType,
   closeModal,
 }: AccountModalProps): JSX.Element => {
   const { showToast } = useToast();
-  const { getData } = useGetData();
   const { setData } = useSetData();
 
   const formik = useFormik<Account>({
     initialValues: {
-      id,
+      id: uuidv4(),
       name: '',
       type: 'WALLET',
       balance: '',
@@ -77,25 +76,21 @@ const AccountModal = ({
     value: item,
   }));
 
-  const fillAccountFormik = (id: string): void => {
-    getData(`/accounts/${id}`, (snapshot) => {
-      if (snapshot.exists()) {
-        const accountData: Account = snapshot.val();
+  const fillAccountFormik = (): void => {
+    if (!account) return;
 
-        formik.setValues({
-          id: accountData.id,
-          name: accountData.name,
-          type: accountData.type,
-          balance: accountData.balance,
-          active: Boolean(accountData.active),
-        });
-      }
+    formik.setValues({
+      id: account.id,
+      name: account.name,
+      type: account.type,
+      balance: account.balance,
+      active: Boolean(account.active),
     });
   };
 
   useEffect(() => {
     if (modalType === 'update') {
-      fillAccountFormik(id);
+      fillAccountFormik();
     }
   }, []);
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { uuidv4 } from '@firebase/util';
 
 import useGetData from 'requests/queries/useGetData';
 
@@ -48,7 +47,6 @@ const Accounts = (): JSX.Element => {
       {openModal && (
         <ShowModal showModal={openModal} closeModal={() => setOpenModal(false)}>
           <AccountModal
-            id={uuidv4()}
             modalType="create"
             closeModal={() => setOpenModal(false)}
           />
