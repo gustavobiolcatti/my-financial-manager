@@ -26,19 +26,20 @@ const TransationsTable = ({
   accounts,
   transations,
 }: TransationsTableProps): JSX.Element => {
+  const [transation, setTransation] = useState<Transation>();
   const [transationId, setTransationId] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState('');
 
-  const handleOpenModal = (id: string, type: 'delete' | 'update') => {
+  const handleOpenModal = (
+    transation: Transation,
+    type: 'delete' | 'update',
+  ) => {
     setModalType(type);
-    setTransationId(id);
+    setTransation(transation);
+    setTransationId(transation.id);
     setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
   };
 
   return (
@@ -84,11 +85,11 @@ const TransationsTable = ({
                   <S.ActionButtonWrapper>
                     <ActionButton
                       actionType="update"
-                      onClick={() => handleOpenModal(transation.id, 'update')}
+                      onClick={() => handleOpenModal(transation, 'update')}
                     />
                     <ActionButton
                       actionType="delete"
-                      onClick={() => handleOpenModal(transation.id, 'delete')}
+                      onClick={() => handleOpenModal(transation, 'delete')}
                     />
                   </S.ActionButtonWrapper>
                 </S.TableColumn>
@@ -98,20 +99,22 @@ const TransationsTable = ({
       </S.Table>
 
       {openModal && (
-        <ShowModal showModal={openModal} closeModal={handleCloseModal}>
+        <ShowModal showModal={openModal} closeModal={() => setOpenModal(false)}>
           {modalType === 'update' ? (
             <TransationModal
               id={transationId}
               transationDate={transationDate}
               modalType="update"
-              closeModal={handleCloseModal}
+              closeModal={() => setOpenModal(false)}
             />
           ) : (
-            <DeleteTransationModal
-              id={transationId}
-              transationDate={transationDate}
-              closeModal={handleCloseModal}
-            />
+            transation && (
+              <DeleteTransationModal
+                transation={transation}
+                transationDate={transationDate}
+                closeModal={() => setOpenModal(false)}
+              />
+            )
           )}
         </ShowModal>
       )}

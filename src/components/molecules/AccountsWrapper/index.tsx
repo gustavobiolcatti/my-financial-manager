@@ -26,10 +26,6 @@ const AccountsWrapper = ({ accounts }: AccountsWrapperProps): JSX.Element => {
     setOpenModal(true);
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
   return (
     <S.Container>
       {accounts.map((account) => (
@@ -50,15 +46,18 @@ const AccountsWrapper = ({ accounts }: AccountsWrapperProps): JSX.Element => {
         </Card>
       ))}
       {openModal && (
-        <ShowModal showModal={openModal} closeModal={handleCloseModal}>
+        <ShowModal showModal={openModal} closeModal={() => setOpenModal(false)}>
           {modalType === 'update' ? (
             <AccountModal
-              modalType="update"
               id={accountId}
-              closeModal={handleCloseModal}
+              modalType="update"
+              closeModal={() => setOpenModal(false)}
             />
           ) : (
-            <DeleteAccountModal id={accountId} closeModal={handleCloseModal} />
+            <DeleteAccountModal
+              id={accountId}
+              closeModal={() => setOpenModal(false)}
+            />
           )}
         </ShowModal>
       )}

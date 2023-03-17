@@ -20,14 +20,6 @@ const Accounts = (): JSX.Element => {
 
   const { getData } = useGetData();
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
   const getAccounts = (): void => {
     getData(`/accounts`, (snapshot) => {
       const data: Account[] = Object.values(snapshot.val());
@@ -45,7 +37,7 @@ const Accounts = (): JSX.Element => {
   return (
     <>
       <TitleContainer title="contas">
-        <AddButton onClick={handleOpenModal} />
+        <AddButton onClick={() => setOpenModal(true)} />
       </TitleContainer>
 
       <S.Container>
@@ -54,11 +46,11 @@ const Accounts = (): JSX.Element => {
       </S.Container>
 
       {openModal && (
-        <ShowModal showModal={openModal} closeModal={handleCloseModal}>
+        <ShowModal showModal={openModal} closeModal={() => setOpenModal(false)}>
           <AccountModal
             id={uuidv4()}
             modalType="create"
-            closeModal={handleCloseModal}
+            closeModal={() => setOpenModal(false)}
           />
         </ShowModal>
       )}
