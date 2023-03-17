@@ -38,10 +38,14 @@ const Categories = (): JSX.Element => {
     const formattedCategoryType = type.toLowerCase();
 
     getData(`/categories/${formattedCategoryType}`, (snapshot) => {
-      const data = snapshot.val();
+      const data: Category[] = Object.values(snapshot.val());
+
+      const activeCategories = data.filter(
+        (category) => category.active === true,
+      );
 
       setCategoryType(type);
-      setCategories(Object.values(data));
+      setCategories(activeCategories);
     });
   };
 

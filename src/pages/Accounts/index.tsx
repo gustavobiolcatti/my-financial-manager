@@ -30,9 +30,11 @@ const Accounts = (): JSX.Element => {
 
   const getAccounts = (): void => {
     getData(`/accounts`, (snapshot) => {
-      const data = snapshot.val();
+      const data: Account[] = Object.values(snapshot.val());
 
-      setAccounts(Object.values(data));
+      const activeAccounts = data.filter((account) => account.active === true);
+
+      setAccounts(activeAccounts);
     });
   };
 

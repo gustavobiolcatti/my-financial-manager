@@ -10,6 +10,7 @@ import { useToast } from 'hooks/useToast';
 import { Account } from 'models/account';
 import { Transation } from 'models/transation';
 import { transationTypeEnumTranslate } from 'models/enums/transation-type-enum';
+import { Category } from 'models/category';
 
 import Button from 'components/atoms/Button';
 
@@ -20,12 +21,14 @@ import * as S from './styles';
 
 type TransationModalProps = {
   id: string;
+  transationDate?: Date | null;
   modalType: 'create' | 'update';
   closeModal: () => void;
 };
 
 const TransationModal = ({
   id,
+  transationDate,
   modalType,
   closeModal,
 }: TransationModalProps): JSX.Element => {
@@ -35,7 +38,10 @@ const TransationModal = ({
   const [accountSelectData, setAccountSelectData] = useState([
     { label: '', value: '' },
   ]);
-  const [account, setAccount] = useState<Account | null>(null);
+  const [accounts, setAccounts] = useState();
+  const [sellectedAccount, setSellectedAccount] = useState<Account | null>(
+    null,
+  );
 
   const { showToast } = useToast();
   const { getData } = useGetData();
@@ -57,7 +63,7 @@ const TransationModal = ({
           !values.categoryId ||
           !values.accountId ||
           !values.value ||
-          !account
+          !sellectedAccount
         ) {
           showToast({
             type: 'error',
@@ -66,15 +72,14 @@ const TransationModal = ({
           return;
         }
 
-        const formattedDate = formatDateWithDateFns(values.date, 'dd-MM-yyyy');
         const urlFormattedDate = formatDateWithDateFns(values.date, 'MM-yyyy');
 
         const data = {
           id: values.id,
-          date: formattedDate,
+          date: new Date(values.date).toISOString(),
           type: values.type,
           categoryId: values.categoryId,
-          description: values.description || '-',
+          description: values.description,
           accountId: values.accountId,
           value: Number(values.value),
         };
@@ -82,14 +87,14 @@ const TransationModal = ({
         let newBalance = 0;
 
         if (values.type === 'EXPENSE') {
-          newBalance = Number(account.balance) - Number(values.value);
+          newBalance = Number(sellectedAccount.balance) - Number(values.value);
         } else {
-          newBalance = Number(account.balance) + Number(values.value);
+          newBalance = Number(sellectedAccount.balance) + Number(values.value);
         }
 
         setData(`/transations/${urlFormattedDate}/${values.id}`, data);
         setData(`/accounts/${values.accountId}`, {
-          ...account,
+          ...sellectedAccount,
           balance: newBalance,
         });
 
@@ -99,6 +104,7 @@ const TransationModal = ({
             : 'Transação atualizada';
 
         showToast({ type: 'success', message: toastMessage });
+        closeModal();
       } catch (error) {
         const err = error as Error;
         console.log('ERROR => ', err.message);
@@ -123,9 +129,13 @@ const TransationModal = ({
 
     getData(`/categories/${formattedType}`, (snapshot) => {
       if (snapshot.exists()) {
-        const data = Object.values(snapshot.val());
+        const data: Category[] = Object.values(snapshot.val());
 
-        const newCategorySelectData = data.map((category: any) => ({
+        const activeCategories = data.filter(
+          (category) => category.active === true,
+        );
+
+        const newCategorySelectData = activeCategories.map((category) => ({
           label: capitalizeFirstLetterOfEachWorlds(category.name),
           value: category.id,
         }));
@@ -135,27 +145,46 @@ const TransationModal = ({
     });
   };
 
-  const getAccountById = (id: string) => {
-    getData(`/accounts/${id}`, (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-
-        setAccount(data);
-      }
-    });
-  };
-
   const getAccounts = (): void => {
     getData(`/accounts`, (snapshot) => {
       if (snapshot.exists()) {
-        const data = Object.values(snapshot.val());
+        const data: Account[] = Object.values(snapshot.val());
 
-        const accountSelectData = data.map((account: any) => ({
+        const activeAccounts = data.filter(
+          (account) => account.active === true,
+        );
+
+        const accountSelectData = activeAccounts.map((account: any) => ({
           label: capitalizeFirstLetterOfEachWorlds(account.name),
           value: account.id,
         }));
 
+        setAccounts(snapshot.val());
         setAccountSelectData(accountSelectData);
+      }
+    });
+  };
+
+  const fillTransationFormik = (id: string): void => {
+    if (!transationDate) return;
+
+    const urlFormattedDate = formatDateWithDateFns(transationDate, 'MM-yyyy');
+
+    getData(`/transations/${urlFormattedDate}/${id}`, (snapshot) => {
+      if (snapshot.exists()) {
+        const transationData = snapshot.val();
+
+        console.log(transationData);
+
+        formik.setValues({
+          id: transationData.id,
+          date: new Date(transationData.date),
+          type: transationData.type,
+          categoryId: transationData.categoryId,
+          description: transationData.description || '-',
+          accountId: transationData.accountId,
+          value: Number(transationData.value),
+        });
       }
     });
   };
@@ -165,12 +194,18 @@ const TransationModal = ({
   }, [formik.values.type]);
 
   useEffect(() => {
-    getAccountById(formik.values.accountId);
+    if (!accounts) return;
+
+    setSellectedAccount(accounts[formik.values.accountId]);
   }, [formik.values.accountId]);
 
   useEffect(() => {
     getCategoriesByType(formik.values.type);
     getAccounts();
+
+    if (modalType === 'update') {
+      fillTransationFormik(id);
+    }
   }, []);
 
   return (

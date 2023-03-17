@@ -5,7 +5,7 @@ import * as S from './styles';
 type CardProps = {
   title: string;
   description: string;
-  balance: number;
+  balance: number | string;
   children: ReactNode;
 };
 
@@ -25,7 +25,7 @@ const Card = ({
         <S.ActionButtonWrapper>{children}</S.ActionButtonWrapper>
       </S.CardHeader>
       <S.CardBalance negative={balance < 0} positive={balance > 0}>
-        R$ {balance.toFixed(2)}
+        R$ {Number(balance).toFixed(2)}
       </S.CardBalance>
     </S.Card>
   );

@@ -35,6 +35,7 @@ const AccountModal = ({
       name: '',
       type: 'WALLET',
       balance: '',
+      active: true,
     },
     onSubmit: (values) => {
       try {
@@ -73,9 +74,7 @@ const AccountModal = ({
     value: item,
   }));
 
-  useEffect(() => {
-    if (modalType === 'create') return;
-
+  const fillAccountFormik = (id: string): void => {
     getData(`/accounts/${id}`, (snapshot) => {
       if (snapshot.exists()) {
         const accountData = snapshot.val();
@@ -85,9 +84,16 @@ const AccountModal = ({
           name: accountData.name,
           type: accountData.type,
           balance: accountData.balance,
+          active: Boolean(true),
         });
       }
     });
+  };
+
+  useEffect(() => {
+    if (modalType === 'update') {
+      fillAccountFormik(id);
+    }
   }, []);
 
   return (

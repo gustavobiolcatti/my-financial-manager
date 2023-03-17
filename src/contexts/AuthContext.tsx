@@ -49,8 +49,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(userData);
   });
 
-  const createUser = async (user: User): Promise<void> => {
-    await getData(
+  const createUser = (user: User): void => {
+    getData(
       '/configs/categories',
       (snapshot) => {
         const categories = snapshot.val();

@@ -17,14 +17,14 @@ const CategoriesTable = ({
   categories,
   categoryType,
 }: CategoriesTableProps): JSX.Element => {
-  const [accountId, setAccountId] = useState('');
+  const [categoryId, setCategoryId] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState('');
 
   const handleOpenModal = (id: string, type: 'delete' | 'update') => {
     setModalType(type);
-    setAccountId(id);
+    setCategoryId(id);
     setOpenModal(true);
   };
 
@@ -69,14 +69,14 @@ const CategoriesTable = ({
         <ShowModal showModal={openModal} closeModal={handleCloseModal}>
           {modalType === 'update' ? (
             <CategoryModal
+              id={categoryId}
               modalType="update"
               type={categoryType}
-              id={accountId}
               closeModal={handleCloseModal}
             />
           ) : (
             <DeleteCategoryModal
-              id={accountId}
+              id={categoryId}
               categoryType={categoryType}
               closeModal={handleCloseModal}
             />
