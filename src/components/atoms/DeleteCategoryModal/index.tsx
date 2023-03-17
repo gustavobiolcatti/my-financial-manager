@@ -1,30 +1,35 @@
-import useDeleteData from 'requests/mutations/useDeleteData';
+import useSetData from 'requests/mutations/useSetData';
 
 import { useToast } from 'hooks/useToast';
+
+import { Category } from 'models/category';
 
 import Button from 'components/atoms/Button';
 
 import * as S from './styles';
 
 type DeleteCategoryModalProps = {
-  id: string;
+  category: Category;
   categoryType: string | null;
   closeModal: () => void;
 };
 
 const DeleteCategoryModal = ({
-  id,
+  category,
   categoryType,
   closeModal,
 }: DeleteCategoryModalProps): JSX.Element => {
-  const { deleteData } = useDeleteData();
+  const { setData } = useSetData();
   const { showToast } = useToast();
 
   const handleDeleteData = (): void => {
     try {
       const formattedCategoryType = categoryType?.toLowerCase();
 
-      deleteData(`/categories/${formattedCategoryType}/${id}`);
+      setData(`/categories/${formattedCategoryType}/${category.id}`, {
+        ...category,
+        active: false,
+      });
 
       closeModal();
 

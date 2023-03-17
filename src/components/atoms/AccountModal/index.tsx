@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
+import { uuidv4 } from '@firebase/util';
 import { Input, SelectPicker } from 'rsuite';
 
-import useGetData from 'requests/queries/useGetData';
 import useSetData from 'requests/mutations/useSetData';
 
 import { useToast } from 'hooks/useToast';
@@ -11,27 +11,28 @@ import { accountTypeEnumTranslate } from 'models/enums/account-type-enum';
 import { Account } from 'models/account';
 
 import Button from 'components/atoms/Button';
-
-import * as S from './styles';
+import FormLabel from 'components/atoms/FormLabel';
+import Form from 'components/molecules/Form';
+import InputGroup from 'components/molecules/InputGroup';
+import ButtonWrapper from 'components/molecules/ButtonWrapper';
 
 type AccountModalProps = {
-  id: string;
+  account?: Account;
   modalType: 'create' | 'update';
   closeModal: () => void;
 };
 
 const AccountModal = ({
-  id,
+  account,
   modalType,
   closeModal,
 }: AccountModalProps): JSX.Element => {
   const { showToast } = useToast();
-  const { getData } = useGetData();
   const { setData } = useSetData();
 
   const formik = useFormik<Account>({
     initialValues: {
-      id,
+      id: uuidv4(),
       name: '',
       type: 'WALLET',
       balance: '',
@@ -44,6 +45,7 @@ const AccountModal = ({
           name: values.name,
           type: values.type,
           balance: Number(values.balance),
+          active: Boolean(true),
         };
 
         setData(`/accounts/${values.id}`, data);
@@ -74,73 +76,76 @@ const AccountModal = ({
     value: item,
   }));
 
-  const fillAccountFormik = (id: string): void => {
-    getData(`/accounts/${id}`, (snapshot) => {
-      if (snapshot.exists()) {
-        const accountData = snapshot.val();
+  const fillAccountFormik = (): void => {
+    if (!account) return;
 
-        formik.setValues({
-          id: accountData.id,
-          name: accountData.name,
-          type: accountData.type,
-          balance: accountData.balance,
-          active: Boolean(true),
-        });
-      }
+    formik.setValues({
+      id: account.id,
+      name: account.name,
+      type: account.type,
+      balance: account.balance,
+      active: Boolean(account.active),
     });
   };
 
   useEffect(() => {
     if (modalType === 'update') {
-      fillAccountFormik(id);
+      fillAccountFormik();
     }
   }, []);
 
   return (
-    <S.Form onSubmit={formik.handleSubmit}>
-      <S.Title id="modal-title">
-        {modalType === 'create' ? 'Nova conta' : 'Editar conta'}
-      </S.Title>
+    <Form
+      title={modalType === 'create' ? 'Nova conta' : 'Editar conta'}
+      onSubmit={formik.handleSubmit}
+    >
+      <InputGroup>
+        <FormLabel htmlFor="name">Nome</FormLabel>
+        <Input
+          id="name"
+          type="text"
+          value={formik.values.name}
+          onChange={(value) => formik.setFieldValue('name', value)}
+          style={{
+            padding: '.5em',
+          }}
+          required
+        />
+      </InputGroup>
 
-      <S.Label htmlFor="name">Nome da conta</S.Label>
-      <Input
-        id="name"
-        type="text"
-        value={formik.values.name}
-        onChange={(value) => formik.setFieldValue('name', value)}
-        style={{
-          padding: '.5em',
-        }}
-        required
-      />
+      <InputGroup singleColumn>
+        <FormLabel htmlFor="type">Tipo</FormLabel>
+        <SelectPicker
+          id="type"
+          data={accountSelectData}
+          value={formik.values.type}
+          onChange={(value) => formik.setFieldValue('type', value)}
+          searchable={false}
+          cleanable={false}
+        />
+      </InputGroup>
 
-      <S.Label htmlFor="type">Tipo da conta</S.Label>
-      <SelectPicker
-        id="type"
-        data={accountSelectData}
-        value={formik.values.type}
-        onChange={(value) => formik.setFieldValue('type', value)}
-        searchable={false}
-        cleanable={false}
-      />
+      <InputGroup singleColumn>
+        <FormLabel htmlFor="balance">
+          Saldo {modalType !== 'update' && 'inicial'}
+        </FormLabel>
+        <Input
+          id="balance"
+          type="number"
+          placeholder="R$ 0.00"
+          value={formik.values.balance}
+          onChange={(value) => formik.setFieldValue('balance', value)}
+          required
+        />
+      </InputGroup>
 
-      <S.Label htmlFor="balance">Saldo inicial</S.Label>
-      <Input
-        id="balance"
-        type="number"
-        placeholder="R$ 0.00"
-        value={formik.values.balance}
-        onChange={(value) => formik.setFieldValue('balance', value)}
-        required
-      />
-
-      <S.ButtonContainer>
+      <ButtonWrapper>
         <Button type="submit" alert>
           {modalType === 'create' ? 'Criar' : 'Atualizar'}
         </Button>
         <Button onClick={closeModal}>Cancelar</Button>
-      </S.ButtonContainer>
-    </S.Form>
+      </ButtonWrapper>
+    </Form>
   );
 };
 

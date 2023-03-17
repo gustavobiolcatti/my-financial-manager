@@ -83,7 +83,6 @@ const Categories = (): JSX.Element => {
         {openModal && (
           <ShowModal showModal={openModal} closeModal={handleCloseModal}>
             <CategoryModal
-              id={uuidv4()}
               type={categoryType}
               modalType="create"
               closeModal={handleCloseModal}

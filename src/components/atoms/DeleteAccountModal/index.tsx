@@ -1,26 +1,28 @@
-import useDeleteData from 'requests/mutations/useDeleteData';
+import useSetData from 'requests/mutations/useSetData';
 
 import { useToast } from 'hooks/useToast';
 
 import Button from 'components/atoms/Button';
 
+import { Account } from 'models/account';
+
 import * as S from './styles';
 
 type DeleteAccountModalProps = {
-  id: string;
+  account: Account;
   closeModal: () => void;
 };
 
 const DeleteAccountModal = ({
-  id,
+  account,
   closeModal,
 }: DeleteAccountModalProps): JSX.Element => {
-  const { deleteData } = useDeleteData();
+  const { setData } = useSetData();
   const { showToast } = useToast();
 
   const handleDeleteData = (): void => {
     try {
-      deleteData(`/accounts/${id}`);
+      setData(`/accounts/${account.id}`, { ...account, active: false });
 
       closeModal();
 

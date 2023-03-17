@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { uuidv4 } from '@firebase/util';
 import { DatePicker, SelectPicker } from 'rsuite';
 
 import useGetData from 'requests/queries/useGetData';
@@ -24,21 +23,13 @@ const Transations = (): JSX.Element => {
   const [transationType, setTransationType] = useState<string | null>('ALL');
   const [transationDate, setTransationDate] = useState<Date | null>(new Date());
 
-  const [transations, setTransations] = useState<Transation[] | null>(null);
+  const [transations, setTransations] = useState<Transation[]>([]);
   const [accounts, setAccounts] = useState<AccountsObject>({});
   const [categories, setCategories] = useState<CategoriesObject>({});
 
   const [openModal, setOpenModal] = useState(false);
 
   const { getData } = useGetData();
-
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
 
   const transationSelectData = ['EXPENSE', 'INCOME', 'ALL'].map((item) => ({
     label: transationTypeEnumTranslate(item),
@@ -66,11 +57,11 @@ const Transations = (): JSX.Element => {
           return;
         }
 
-        setTransations(Object.values(snapshot.val()));
+        setTransations(data);
         return;
       }
 
-      setTransations(null);
+      setTransations([]);
     });
   };
 
@@ -89,13 +80,7 @@ const Transations = (): JSX.Element => {
       if (snapshot.exists()) {
         const data = snapshot.val();
 
-        const expenseCategories = data.expense;
-        const incomeCategories = data.income;
-
-        const allCategories = Object.assign(
-          expenseCategories,
-          incomeCategories,
-        );
+        const allCategories = Object.assign(data.expense, data.income);
 
         setCategories(allCategories);
       }
@@ -120,7 +105,7 @@ const Transations = (): JSX.Element => {
   return (
     <>
       <TitleContainer title="transações">
-        <AddButton onClick={handleOpenModal} />
+        <AddButton onClick={() => setOpenModal(true)} />
       </TitleContainer>
 
       <S.Container>
@@ -133,6 +118,7 @@ const Transations = (): JSX.Element => {
             cleanable={false}
             style={{ width: 200 }}
           />
+
           <SelectPicker
             data={transationSelectData}
             value={transationType}
@@ -157,11 +143,13 @@ const Transations = (): JSX.Element => {
         <S.Charts>Gráficos</S.Charts>
 
         {openModal && (
-          <ShowModal showModal={openModal} closeModal={handleCloseModal}>
+          <ShowModal
+            showModal={openModal}
+            closeModal={() => setOpenModal(false)}
+          >
             <TransationModal
-              id={uuidv4()}
               modalType="create"
-              closeModal={handleCloseModal}
+              closeModal={() => setOpenModal(false)}
             />
           </ShowModal>
         )}
