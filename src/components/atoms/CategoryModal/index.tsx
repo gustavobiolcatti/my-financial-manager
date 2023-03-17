@@ -38,6 +38,7 @@ const CategoryModal = ({
       id,
       name: '',
       color: '#000000',
+      active: true,
     },
     onSubmit: (values) => {
       try {
@@ -77,9 +78,7 @@ const CategoryModal = ({
     value: item,
   }));
 
-  useEffect(() => {
-    if (modalType === 'create') return;
-
+  const fillCategoryFormik = (id: string): void => {
     const formattedCategoryType = categoryType?.toLowerCase();
 
     getData(`/categories/${formattedCategoryType}/${id}`, (snapshot) => {
@@ -90,9 +89,16 @@ const CategoryModal = ({
           id: categoryData.id,
           name: categoryData.name,
           color: categoryData.color,
+          active: Boolean(true),
         });
       }
     });
+  };
+
+  useEffect(() => {
+    if (modalType === 'update') {
+      fillCategoryFormik(id);
+    }
   }, []);
 
   return (
@@ -123,7 +129,6 @@ const CategoryModal = ({
             onChange={(value) => setCategoryType(value)}
             searchable={false}
             cleanable={false}
-            menuStyle={{ zIndex: 1300 }}
           />
         </>
       )}

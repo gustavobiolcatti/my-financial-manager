@@ -17,4 +17,6 @@ export const Charts = styled.div`
   border-radius: 10px;
 
   background: ${colors.white};
+
+  box-shadow: 0 0 2px ${colors.gray};
 `;

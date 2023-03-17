@@ -34,19 +34,16 @@ const AccountModal = ({
       id,
       name: '',
       type: 'WALLET',
-      balance: 0,
+      balance: '',
+      active: true,
     },
     onSubmit: (values) => {
       try {
-        const formattedBalance = parseFloat(values.balance.toString()).toFixed(
-          2,
-        );
-
         const data = {
           id: values.id,
           name: values.name,
           type: values.type,
-          balance: formattedBalance,
+          balance: Number(values.balance),
         };
 
         setData(`/accounts/${values.id}`, data);
@@ -77,9 +74,7 @@ const AccountModal = ({
     value: item,
   }));
 
-  useEffect(() => {
-    if (modalType === 'create') return;
-
+  const fillAccountFormik = (id: string): void => {
     getData(`/accounts/${id}`, (snapshot) => {
       if (snapshot.exists()) {
         const accountData = snapshot.val();
@@ -89,9 +84,16 @@ const AccountModal = ({
           name: accountData.name,
           type: accountData.type,
           balance: accountData.balance,
+          active: Boolean(true),
         });
       }
     });
+  };
+
+  useEffect(() => {
+    if (modalType === 'update') {
+      fillAccountFormik(id);
+    }
   }, []);
 
   return (
@@ -120,13 +122,13 @@ const AccountModal = ({
         onChange={(value) => formik.setFieldValue('type', value)}
         searchable={false}
         cleanable={false}
-        menuStyle={{ zIndex: 1300 }}
       />
 
       <S.Label htmlFor="balance">Saldo inicial</S.Label>
       <Input
         id="balance"
         type="number"
+        placeholder="R$ 0.00"
         value={formik.values.balance}
         onChange={(value) => formik.setFieldValue('balance', value)}
         required
