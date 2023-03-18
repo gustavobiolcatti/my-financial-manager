@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr 1fr;
 
   gap: 40px;
 
@@ -10,5 +10,5 @@ export const Container = styled.div`
 `;
 
 export const FilterWrapper = styled.div`
-  grid-column: span 4;
+  grid-column: span 2;
 `;

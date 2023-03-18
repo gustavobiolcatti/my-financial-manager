@@ -1,5 +1,3 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  grid-column: span 2;
-`;
+export const Container = styled.div``;
