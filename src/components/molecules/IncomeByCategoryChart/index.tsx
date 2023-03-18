@@ -8,7 +8,6 @@ import { Category } from 'models/category';
 
 import Chart from 'components/atoms/Chart';
 
-import { formatDateWithDateFns } from 'utils/formatDate';
 import { capitalizeFirstLetterOfEachWorlds } from 'utils/capitalizeFirstLetterOfEachWorlds';
 
 import colors from 'assets/colors';
@@ -16,11 +15,11 @@ import colors from 'assets/colors';
 import * as S from './styles';
 
 type IncomeByCategoryChartProps = {
-  transationDate: Date | null;
+  transations: Transation[];
 };
 
 const IncomeByCategoryChart = ({
-  transationDate,
+  transations,
 }: IncomeByCategoryChartProps): JSX.Element => {
   const [total, setTotal] = useState<PieChartData[]>();
 
@@ -40,7 +39,7 @@ const IncomeByCategoryChart = ({
     color: categoryColors,
     series: [
       {
-        name: 'Entrada x Entrada',
+        name: 'Entrada x Categoria',
         type: 'pie',
         radius: ['40%', '70%'],
         avoidLabelOverlap: false,
@@ -78,54 +77,32 @@ const IncomeByCategoryChart = ({
     });
   };
 
-  const getTransations = (): void => {
-    if (!transationDate) return;
+  const filterTransationsByCategory = (): void => {
+    const transationsByCategory = categories?.map((category) => {
+      const filteredTransations: Transation[] = transations.filter(
+        (transation) => transation.categoryId === category.id,
+      );
 
-    const formattedTransationDate = formatDateWithDateFns(
-      transationDate,
-      'MM-yyyy',
-    );
-
-    getData(`/transations/${formattedTransationDate}`, (snapshot) => {
-      if (snapshot.exists()) {
-        const data: Transation[] = Object.values(snapshot.val());
-
-        const incomeTrasantions: Transation[] = data.filter(
-          (transation) => transation?.type === 'INCOME',
-        );
-
-        const transationsByCategory = categories?.map((category) => {
-          const filteredTransations: Transation[] = incomeTrasantions.filter(
-            (transation) => transation.categoryId === category.id,
-          );
-
-          let incomeTempTotal = 0;
-          for (const transation of filteredTransations) {
-            incomeTempTotal += Number(transation.value);
-          }
-
-          return {
-            value: incomeTempTotal,
-            name: capitalizeFirstLetterOfEachWorlds(category.name),
-          };
-        });
-
-        setTotal(transationsByCategory);
-        console.log(total);
-        return;
+      let incomeTempTotal = 0;
+      for (const transation of filteredTransations) {
+        incomeTempTotal += Number(transation.value);
       }
 
-      setTotal(undefined);
+      return {
+        value: incomeTempTotal,
+        name: capitalizeFirstLetterOfEachWorlds(category.name),
+      };
     });
+
+    setTotal(transationsByCategory);
   };
 
   useEffect(() => {
-    getTransations();
-  }, [transationDate, categories]);
+    filterTransationsByCategory();
+  }, [categories]);
 
   useEffect(() => {
     getCategories();
-    getTransations();
   }, []);
 
   return (

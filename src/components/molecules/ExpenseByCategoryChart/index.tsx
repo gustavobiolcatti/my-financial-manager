@@ -8,8 +8,6 @@ import { Category } from 'models/category';
 
 import Chart from 'components/atoms/Chart';
 
-import { formatDateWithDateFns } from 'utils/formatDate';
-
 import { capitalizeFirstLetterOfEachWorlds } from 'utils/capitalizeFirstLetterOfEachWorlds';
 
 import colors from 'assets/colors';
@@ -17,11 +15,11 @@ import colors from 'assets/colors';
 import * as S from './styles';
 
 type ExpenseByCategoryChartProps = {
-  transationDate: Date | null;
+  transations: Transation[];
 };
 
 const ExpenseByCategoryChart = ({
-  transationDate,
+  transations,
 }: ExpenseByCategoryChartProps): JSX.Element => {
   const [total, setTotal] = useState<PieChartData[]>();
 
@@ -79,53 +77,32 @@ const ExpenseByCategoryChart = ({
     });
   };
 
-  const getTransations = (): void => {
-    if (!transationDate) return;
+  const filterTransationsByCategory = (): void => {
+    const transationsByCategory = categories?.map((category) => {
+      const filteredTransations: Transation[] = transations.filter(
+        (transation) => transation.categoryId === category.id,
+      );
 
-    const formattedTransationDate = formatDateWithDateFns(
-      transationDate,
-      'MM-yyyy',
-    );
-
-    getData(`/transations/${formattedTransationDate}`, (snapshot) => {
-      if (snapshot.exists()) {
-        const data: Transation[] = Object.values(snapshot.val());
-
-        const expenseTrasantions: Transation[] = data.filter(
-          (transation) => transation?.type === 'EXPENSE',
-        );
-
-        const transationsByCategory = categories?.map((category) => {
-          const filteredTransations: Transation[] = expenseTrasantions.filter(
-            (transation) => transation.categoryId === category.id,
-          );
-
-          let expenseTempTotal = 0;
-          for (const transation of filteredTransations) {
-            expenseTempTotal += Number(transation.value);
-          }
-
-          return {
-            value: expenseTempTotal,
-            name: capitalizeFirstLetterOfEachWorlds(category.name),
-          };
-        });
-
-        setTotal(transationsByCategory);
-        return;
+      let expenseTempTotal = 0;
+      for (const transation of filteredTransations) {
+        expenseTempTotal += Number(transation.value);
       }
 
-      setTotal(undefined);
+      return {
+        value: expenseTempTotal,
+        name: capitalizeFirstLetterOfEachWorlds(category.name),
+      };
     });
+
+    setTotal(transationsByCategory);
   };
 
   useEffect(() => {
-    getTransations();
-  }, [transationDate, categories]);
+    filterTransationsByCategory();
+  }, [categories]);
 
   useEffect(() => {
     getCategories();
-    getTransations();
   }, []);
 
   return (
