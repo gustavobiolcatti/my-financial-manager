@@ -57,6 +57,10 @@ const Dashboard = (): JSX.Element => {
 
   useEffect(() => {
     getTransations();
+  }, [transationDate]);
+
+  useEffect(() => {
+    getTransations();
   }, []);
 
   return (
