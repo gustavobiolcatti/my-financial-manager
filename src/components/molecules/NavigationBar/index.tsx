@@ -30,7 +30,7 @@ const NavigationBar = () => {
   return (
     <S.Container active={menuActive}>
       <S.ToggleButton onClick={toggleMenu}>
-        {menuActive ? <MdMenu size={32} /> : <MdMenuOpen size={32} />}
+        {menuActive ? <MdMenuOpen size={32} /> : <MdMenu size={32} />}
       </S.ToggleButton>
 
       <S.LinksWrapper onClick={toggleMenu}>

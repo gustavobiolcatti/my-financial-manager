@@ -31,6 +31,10 @@ export const Content = styled.div`
   @media (max-width: 425px) {
     padding: 3em;
   }
+
+  @media (max-width: 375px) {
+    padding: 1em;
+  }
 `;
 
 export const Image = styled.img`

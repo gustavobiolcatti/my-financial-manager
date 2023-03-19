@@ -127,6 +127,8 @@ export const ToggleButton = styled.button`
 
   border-radius: 10px;
 
+  background: ${colors.white};
+
   color: ${colors.gray};
 
   box-shadow: 0 0 10px ${colors.gray};
