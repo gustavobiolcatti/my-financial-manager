@@ -4,6 +4,7 @@ import { DatePicker } from 'rsuite';
 import useGetData from 'requests/queries/useGetData';
 
 import { Transation } from 'models/transation';
+import { CategoriesObject } from 'models/category';
 
 import ExpenseByCategoryChart from 'components/molecules/ExpenseByCategoryChart';
 import IncomeByCategoryChart from 'components/molecules/IncomeByCategoryChart';
@@ -16,7 +17,7 @@ import * as S from './styles';
 
 const Dashboard = (): JSX.Element => {
   const [transationDate, setTransationDate] = useState<Date | null>(new Date());
-  const [transations, setTransations] = useState<Transation[] | null>(null);
+
   const [expenseTransations, setExpenseTransations] = useState<
     Transation[] | null
   >(null);
@@ -24,7 +25,24 @@ const Dashboard = (): JSX.Element => {
     Transation[] | null
   >(null);
 
+  const [categories, setCategories] = useState<CategoriesObject[] | null>(null);
+  const [expenseCategories, setExpenseCategories] =
+    useState<CategoriesObject | null>(null);
+  const [incomeCategories, setIncomeCategories] =
+    useState<CategoriesObject | null>(null);
+
   const { getData } = useGetData();
+
+  const getCategories = (): void => {
+    getData(`/categories`, (snapshot) => {
+      const data: CategoriesObject[] = Object.values(snapshot.val());
+
+      setCategories(data);
+
+      setExpenseCategories(data[0]);
+      setIncomeCategories(data[1]);
+    });
+  };
 
   const getTransations = (): void => {
     if (!transationDate) return;
@@ -48,19 +66,20 @@ const Dashboard = (): JSX.Element => {
 
         setExpenseTransations(expenses);
         setIncomeTransations(incomes);
-        setTransations(data);
+        return;
       }
+
+      setExpenseTransations(null);
+      setIncomeTransations(null);
     });
   };
 
-  const canShowCharts = transations && expenseTransations && incomeTransations;
-
   useEffect(() => {
     getTransations();
-  }, [transationDate]);
+  }, [transationDate, expenseCategories, incomeCategories]);
 
   useEffect(() => {
-    getTransations();
+    getCategories();
   }, []);
 
   return (
@@ -78,10 +97,16 @@ const Dashboard = (): JSX.Element => {
           />
         </S.FilterWrapper>
 
-        {canShowCharts && (
+        {categories && (
           <>
-            <ExpenseByCategoryChart transations={expenseTransations} />
-            <IncomeByCategoryChart transations={incomeTransations} />
+            <ExpenseByCategoryChart
+              categories={expenseCategories}
+              transations={expenseTransations}
+            />
+            <IncomeByCategoryChart
+              categories={incomeCategories}
+              transations={incomeTransations}
+            />
             <ExpenseIncomeChart
               expenses={expenseTransations}
               incomes={incomeTransations}

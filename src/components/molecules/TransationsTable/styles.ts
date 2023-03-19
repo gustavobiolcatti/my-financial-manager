@@ -5,8 +5,6 @@ import colors from 'assets/colors';
 import { TableColumnProps } from './types';
 
 export const Table = styled.table`
-  grid-column: span 2;
-
   width: 100%;
 
   border-radius: 10px;

@@ -10,8 +10,8 @@ import colors from 'assets/colors';
 import * as S from './styles';
 
 type ExpenseIncomeChartProps = {
-  expenses: Transation[];
-  incomes: Transation[];
+  expenses: Transation[] | null;
+  incomes: Transation[] | null;
 };
 
 const ExpenseIncomeChart = ({
@@ -60,13 +60,17 @@ const ExpenseIncomeChart = ({
 
   const filterTransationsByCategory = (): void => {
     let incomeTempTotal = 0;
-    for (const transation of incomes) {
-      incomeTempTotal += Number(transation.value);
+    if (incomes) {
+      for (const transation of incomes) {
+        incomeTempTotal += Number(transation.value);
+      }
     }
 
     let expenseTempTotal = 0;
-    for (const transation of expenses) {
-      expenseTempTotal += Number(transation.value);
+    if (expenses) {
+      for (const transation of expenses) {
+        expenseTempTotal += Number(transation.value);
+      }
     }
 
     const chartData = [
@@ -79,7 +83,7 @@ const ExpenseIncomeChart = ({
 
   useEffect(() => {
     filterTransationsByCategory();
-  }, []);
+  }, [expenses, incomes]);
 
   return (
     <S.Container>

@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import useGetData from 'requests/queries/useGetData';
-
 import { ChartProps, PieChartData } from 'models/chart';
 import { Transation } from 'models/transation';
-import { Category } from 'models/category';
+import { CategoriesObject } from 'models/category';
 
 import Chart from 'components/atoms/Chart';
 
@@ -15,18 +13,17 @@ import colors from 'assets/colors';
 import * as S from './styles';
 
 type IncomeByCategoryChartProps = {
-  transations: Transation[];
+  transations: Transation[] | null;
+  categories: CategoriesObject | null;
 };
 
 const IncomeByCategoryChart = ({
   transations,
+  categories,
 }: IncomeByCategoryChartProps): JSX.Element => {
   const [total, setTotal] = useState<PieChartData[]>();
 
-  const [categories, setCategories] = useState<Category[]>();
   const [categoryColors, setCategoryColors] = useState<string[]>();
-
-  const { getData } = useGetData();
 
   const chartOptions: ChartProps['option'] = {
     tooltip: {
@@ -66,19 +63,28 @@ const IncomeByCategoryChart = ({
     ],
   };
 
-  const getCategories = (): void => {
-    getData(`/categories/income`, (snapshot) => {
-      const data: Category[] = Object.values(snapshot.val());
+  const getCategoriesColors = (): void => {
+    if (!categories) return;
 
-      const colors = data.map((category) => category.color);
+    const colors = Object.values(categories).map((category) => category.color);
 
-      setCategories(data);
-      setCategoryColors(colors);
-    });
+    setCategoryColors(colors);
   };
 
   const filterTransationsByCategory = (): void => {
-    const transationsByCategory = categories?.map((category) => {
+    if (!transations?.length) {
+      setTotal([
+        {
+          value: 0,
+          name: 'Sem Entradas',
+        },
+      ]);
+      return;
+    }
+
+    if (!categories) return;
+
+    const transationsByCategory = Object.values(categories).map((category) => {
       const filteredTransations: Transation[] = transations.filter(
         (transation) => transation.categoryId === category.id,
       );
@@ -98,12 +104,9 @@ const IncomeByCategoryChart = ({
   };
 
   useEffect(() => {
+    getCategoriesColors();
     filterTransationsByCategory();
-  }, [categories]);
-
-  useEffect(() => {
-    getCategories();
-  }, []);
+  }, [transations]);
 
   return (
     <S.Container>
