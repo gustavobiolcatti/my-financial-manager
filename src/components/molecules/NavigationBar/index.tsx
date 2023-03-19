@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { RiBankLine, RiPieChartLine, RiFileList3Line } from 'react-icons/ri';
-import { MdOutlineExitToApp } from 'react-icons/md';
+import { MdOutlineExitToApp, MdMenuOpen, MdMenu } from 'react-icons/md';
 import { TbTag } from 'react-icons/tb';
+
+import { useMenu } from 'contexts/MenuContext';
 
 import ShowModal from 'components/molecules/Modal';
 import ExitModal from 'components/atoms/ExitModal';
@@ -12,13 +14,7 @@ import * as S from './styles';
 const NavigationBar = () => {
   const [openModal, setOpenModal] = useState(false);
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
+  const { menuActive, toggleMenu } = useMenu();
 
   const handleChangeSellectedPage = (currentPage: string) => {
     const allPagesElement = document.querySelectorAll('.nav-link');
@@ -32,65 +28,70 @@ const NavigationBar = () => {
   };
 
   return (
-    <S.Container>
-      <Link
-        to="/dashboard"
-        id="dashboard"
-        className="nav-link sellected-page"
-        onClick={() => handleChangeSellectedPage('dashboard')}
-      >
-        <S.LinkText>
-          <RiPieChartLine size={24} />
-          <span>Dashboard</span>
-        </S.LinkText>
-      </Link>
+    <S.Container active={menuActive}>
+      <S.ToggleButton onClick={toggleMenu}>
+        {menuActive ? <MdMenu size={32} /> : <MdMenuOpen size={32} />}
+      </S.ToggleButton>
 
-      <Link
-        to="/accounts"
-        id="accounts"
-        className="nav-link"
-        onClick={() => handleChangeSellectedPage('accounts')}
-      >
-        <S.LinkText>
-          <RiBankLine size={24} />
-          <span>Contas</span>
-        </S.LinkText>
-      </Link>
+      <S.LinksWrapper onClick={toggleMenu}>
+        <Link
+          to="/dashboard"
+          id="dashboard"
+          className="nav-link sellected-page"
+          onClick={() => handleChangeSellectedPage('dashboard')}
+        >
+          <S.LinkText>
+            <RiPieChartLine size={24} />
+            <span>Dashboard</span>
+          </S.LinkText>
+        </Link>
 
-      <Link
-        to="/transations"
-        id="transations"
-        className="nav-link"
-        onClick={() => handleChangeSellectedPage('transations')}
-      >
-        <S.LinkText>
-          <RiFileList3Line size={24} />
-          <span>Transações</span>
-        </S.LinkText>
-      </Link>
+        <Link
+          to="/accounts"
+          id="accounts"
+          className="nav-link"
+          onClick={() => handleChangeSellectedPage('accounts')}
+        >
+          <S.LinkText>
+            <RiBankLine size={24} />
+            <span>Contas</span>
+          </S.LinkText>
+        </Link>
 
-      <Link
-        to="/categories"
-        id="categories"
-        className="nav-link"
-        onClick={() => handleChangeSellectedPage('categories')}
-      >
-        <S.LinkText>
-          <TbTag size={24} />
-          <span>Categorias</span>
-        </S.LinkText>
-      </Link>
+        <Link
+          to="/transations"
+          id="transations"
+          className="nav-link"
+          onClick={() => handleChangeSellectedPage('transations')}
+        >
+          <S.LinkText>
+            <RiFileList3Line size={24} />
+            <span>Transações</span>
+          </S.LinkText>
+        </Link>
 
-      <S.Button onClick={handleOpenModal}>
-        <S.LinkText>
-          <MdOutlineExitToApp size={24} />
-          Sair
-        </S.LinkText>
-      </S.Button>
+        <Link
+          to="/categories"
+          id="categories"
+          className="nav-link"
+          onClick={() => handleChangeSellectedPage('categories')}
+        >
+          <S.LinkText>
+            <TbTag size={24} />
+            <span>Categorias</span>
+          </S.LinkText>
+        </Link>
 
+        <S.Button onClick={() => setOpenModal(true)}>
+          <S.LinkText>
+            <MdOutlineExitToApp size={24} />
+            Sair
+          </S.LinkText>
+        </S.Button>
+      </S.LinksWrapper>
       {openModal && (
-        <ShowModal showModal={openModal} closeModal={handleCloseModal}>
-          <ExitModal closeModal={handleCloseModal} />
+        <ShowModal showModal={openModal} closeModal={() => setOpenModal(false)}>
+          <ExitModal closeModal={() => setOpenModal(false)} />
         </ShowModal>
       )}
     </S.Container>

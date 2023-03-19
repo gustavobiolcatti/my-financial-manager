@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 
 import AuthProvider from 'contexts/AuthContext';
+import MenuProvider from 'contexts/MenuContext';
 
 import Error from 'pages/Error';
 import Login from 'pages/Login';
@@ -22,28 +23,30 @@ const Router = (): JSX.Element => {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Error />} />
-          <Route
-            element={
-              <PrivateRoutes>
-                <Outlet />
-              </PrivateRoutes>
-            }
-          >
+        <MenuProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Error />} />
             <Route
-              path="/"
-              element={<Home />}
-              loader={() => redirect('dashboard')}
+              element={
+                <PrivateRoutes>
+                  <Outlet />
+                </PrivateRoutes>
+              }
             >
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="transations" element={<Transations />} />
-              <Route path="accounts" element={<Accounts />} />
-              <Route path="categories" element={<Categories />} />
+              <Route
+                path="/"
+                element={<Home />}
+                loader={() => redirect('dashboard')}
+              >
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="transations" element={<Transations />} />
+                <Route path="accounts" element={<Accounts />} />
+                <Route path="categories" element={<Categories />} />
+              </Route>
             </Route>
-          </Route>
-        </Routes>
+          </Routes>
+        </MenuProvider>
       </AuthProvider>
     </BrowserRouter>
   );

@@ -19,7 +19,9 @@ const Chart = ({
     let chart: ECharts | undefined;
 
     if (chartRef.current !== null) {
-      chart = init(chartRef.current, theme);
+      chart = init(chartRef.current, theme, {
+        renderer: 'svg',
+      });
     }
 
     const resizeChart = (): void => {

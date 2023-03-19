@@ -24,14 +24,6 @@ const Categories = (): JSX.Element => {
 
   const { getData } = useGetData();
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
   const getCategories = (type: string | null): void => {
     if (!type) return;
 
@@ -61,7 +53,7 @@ const Categories = (): JSX.Element => {
   return (
     <>
       <TitleContainer title="categorias">
-        <AddButton onClick={handleOpenModal} />
+        <AddButton onClick={() => setOpenModal(true)} />
       </TitleContainer>
       <S.Container>
         <SelectPicker
@@ -81,11 +73,14 @@ const Categories = (): JSX.Element => {
           <EmptyBox />
         )}
         {openModal && (
-          <ShowModal showModal={openModal} closeModal={handleCloseModal}>
+          <ShowModal
+            showModal={openModal}
+            closeModal={() => setOpenModal(false)}
+          >
             <CategoryModal
               type={categoryType}
               modalType="create"
-              closeModal={handleCloseModal}
+              closeModal={() => setOpenModal(false)}
             />
           </ShowModal>
         )}

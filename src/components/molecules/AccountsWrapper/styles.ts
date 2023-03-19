@@ -7,4 +7,9 @@ export const Container = styled.div`
   gap: 16px;
 
   grid-column: span 2;
+
+  @media (max-width: 425px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
