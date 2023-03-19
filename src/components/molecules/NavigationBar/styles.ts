@@ -1,15 +1,36 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import colors from 'assets/colors';
 
-export const Container = styled.nav`
+import { ContainerProps } from './types';
+
+export const Container = styled.div<ContainerProps>`
+  ${({ active }) => css`
+    position: fixed;
+
+    width: 250px;
+    height: 100%;
+
+    left: ${!active ? '-250px' : 0};
+
+    transition: 0.2s;
+
+    z-index: 1600;
+
+    @media (min-width: 1440px) {
+      left: 0;
+    }
+  `}
+`;
+
+export const LinksWrapper = styled.nav`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 
   padding: 1em 0;
 
-  width: 250px;
+  width: 100%;
   height: 100%;
 
   left: 300px;
@@ -90,4 +111,33 @@ export const LinkText = styled.div`
 
 export const Button = styled.button`
   margin-top: auto;
+`;
+
+export const ToggleButton = styled.button`
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  top: 15px;
+  right: -55px;
+
+  padding: 0.2em;
+
+  border-radius: 10px;
+
+  color: ${colors.gray};
+
+  box-shadow: 0 0 10px ${colors.gray};
+
+  transition: 0.2s;
+
+  :hover {
+    transform: scale(0.95);
+  }
+
+  @media (min-width: 1440px) {
+    display: none;
+  }
 `;

@@ -7,13 +7,13 @@ import * as S from './styles';
 
 const Home = (): JSX.Element => {
   return (
-    <S.Container>
+    <>
       <NavigationBar />
       <S.Wrapper>
         <Header />
         <Outlet />
       </S.Wrapper>
-    </S.Container>
+    </>
   );
 };
 

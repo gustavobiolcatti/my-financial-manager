@@ -126,6 +126,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   );
 };
 
-export default AuthProvider;
-
 export const useAuth = (): AuthContextType => useContext(AuthContext);
+
+export default AuthProvider;

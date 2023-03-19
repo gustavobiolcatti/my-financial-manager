@@ -2,15 +2,8 @@ import styled from 'styled-components';
 
 import colors from 'assets/colors';
 
-export const Container = styled.div`
-  display: flex;
-
-  width: 100%;
-  height: 100%;
-`;
-
 export const Wrapper = styled.div`
-  width: calc(100% - 250px);
+  width: 100%;
   height: 100%;
 
   padding: 0 7em 2em 7em;
@@ -22,4 +15,14 @@ export const Wrapper = styled.div`
   background-repeat: no-repeat;
 
   overflow-y: scroll;
+
+  @media (max-width: 1440px) {
+    padding: 0 3em 2em 3em;
+  }
+
+  @media (min-width: 1440px) {
+    width: calc(100% - 250px);
+
+    margin-left: 250px;
+  }
 `;
