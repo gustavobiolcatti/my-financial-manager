@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Title = styled.span`
+  width: 100%;
   font-size: 1.5em;
 `;
 

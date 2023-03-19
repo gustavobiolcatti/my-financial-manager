@@ -25,4 +25,8 @@ export const Wrapper = styled.div`
 
     margin-left: 250px;
   }
+
+  @media (max-width: 375px) {
+    padding: 0 1em 2em 1em;
+  }
 `;
