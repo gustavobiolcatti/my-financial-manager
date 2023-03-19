@@ -25,7 +25,7 @@ const ExpenseIncomeChart = ({
       trigger: 'item',
     },
     legend: {
-      bottom: '-5',
+      top: '0',
       left: 'center',
     },
     color: [colors.green, colors.red],

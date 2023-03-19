@@ -7,6 +7,10 @@ export const Container = styled.div`
   gap: 40px;
 
   padding: 1em 0;
+
+  @media (max-width: 768px) {
+    display: initial;
+  }
 `;
 
 export const FilterWrapper = styled.div`
