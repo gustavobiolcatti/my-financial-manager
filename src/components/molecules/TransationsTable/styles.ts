@@ -7,6 +7,8 @@ import { TableColumnProps } from './types';
 export const Table = styled.table`
   width: 100%;
 
+  grid-column: span 2;
+
   border-radius: 10px;
 
   background: ${colors.white};

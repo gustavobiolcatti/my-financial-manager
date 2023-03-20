@@ -135,6 +135,7 @@ const AccountModal = ({
           placeholder="R$ 0.00"
           value={formik.values.balance}
           onChange={(value) => formik.setFieldValue('balance', value)}
+          disabled={modalType === 'update'}
           required
         />
       </InputGroup>
