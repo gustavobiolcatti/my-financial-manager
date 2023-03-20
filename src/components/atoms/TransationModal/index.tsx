@@ -5,6 +5,7 @@ import { DatePicker, Input, SelectPicker } from 'rsuite';
 
 import useGetData from 'requests/queries/useGetData';
 import useSetData from 'requests/mutations/useSetData';
+import useDeleteData from 'requests/mutations/useDeleteData';
 
 import { useToast } from 'hooks/useToast';
 
@@ -47,6 +48,7 @@ const TransationModal = ({
   const { showToast } = useToast();
   const { getData } = useGetData();
   const { setData } = useSetData();
+  const { deleteData } = useDeleteData();
 
   const formik = useFormik<Transation>({
     initialValues: {
@@ -87,10 +89,35 @@ const TransationModal = ({
 
         let newBalance = 0;
 
-        if (values.type === 'EXPENSE') {
-          newBalance = Number(sellectedAccount.balance) - Number(values.value);
+        if (modalType === 'update') {
+          if (!transation || !accounts) return;
+
+          const account: Account = accounts[transation.accountId];
+
+          const urlFormattedOldDate = formatDateWithDateFns(
+            transation.date,
+            'MM-yyyy',
+          );
+
+          const accountBalance = Number(account.balance);
+          const transationValue = Number(transation.value);
+
+          newBalance =
+            transation.type === 'EXPENSE'
+              ? accountBalance + transationValue
+              : accountBalance - transationValue;
+
+          deleteData(`/transations/${urlFormattedOldDate}/${transation.id}`);
+
+          newBalance =
+            values.type === 'EXPENSE'
+              ? newBalance - Number(values.value)
+              : newBalance + Number(values.value);
         } else {
-          newBalance = Number(sellectedAccount.balance) + Number(values.value);
+          newBalance =
+            values.type === 'EXPENSE'
+              ? Number(sellectedAccount.balance) - Number(values.value)
+              : Number(sellectedAccount.balance) + Number(values.value);
         }
 
         setData(`/transations/${urlFormattedDate}/${values.id}`, data);
@@ -166,7 +193,7 @@ const TransationModal = ({
     });
   };
 
-  const fillTransationFormik = (): void => {
+  const fillTransationFormik = (transation?: Transation): void => {
     if (!transation) return;
 
     formik.setValues({
@@ -195,7 +222,7 @@ const TransationModal = ({
     getAccounts();
 
     if (modalType === 'update') {
-      fillTransationFormik();
+      fillTransationFormik(transation);
     }
   }, []);
 

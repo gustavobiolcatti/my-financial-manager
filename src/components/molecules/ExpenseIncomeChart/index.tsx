@@ -58,7 +58,10 @@ const ExpenseIncomeChart = ({
     ],
   };
 
-  const filterTransationsByCategory = (): void => {
+  const filterTransationsByCategory = (
+    expenses: Transation[] | null,
+    incomes: Transation[] | null,
+  ): void => {
     let incomeTempTotal = 0;
     if (incomes) {
       for (const transation of incomes) {
@@ -82,7 +85,7 @@ const ExpenseIncomeChart = ({
   };
 
   useEffect(() => {
-    filterTransationsByCategory();
+    filterTransationsByCategory(expenses, incomes);
   }, [expenses, incomes]);
 
   return (

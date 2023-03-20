@@ -22,7 +22,7 @@ const DeleteCategoryModal = ({
   const { setData } = useSetData();
   const { showToast } = useToast();
 
-  const handleDeleteData = (): void => {
+  const handleDeleteData = (category: Category): void => {
     try {
       const formattedCategoryType = categoryType?.toLowerCase();
 
@@ -48,7 +48,7 @@ const DeleteCategoryModal = ({
         Deseja mesmo mesmo excluir a categoria?
       </S.Title>
       <S.ButtonContainer>
-        <Button onClick={handleDeleteData} alert>
+        <Button onClick={() => handleDeleteData(category)} alert>
           Sim
         </Button>
         <Button onClick={closeModal}>Não</Button>

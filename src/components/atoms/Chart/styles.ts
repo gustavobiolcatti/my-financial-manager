@@ -15,7 +15,7 @@ export const Container = styled.div`
   box-shadow: 0 0 2px ${colors.gray};
 
   @media (max-width: 768px) {
-    margin-top: 2em;
+    margin: 2em 0;
 
     min-height: 200px;
   }

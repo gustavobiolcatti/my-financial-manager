@@ -76,7 +76,7 @@ const AccountModal = ({
     value: item,
   }));
 
-  const fillAccountFormik = (): void => {
+  const fillAccountFormik = (account?: Account): void => {
     if (!account) return;
 
     formik.setValues({
@@ -90,7 +90,7 @@ const AccountModal = ({
 
   useEffect(() => {
     if (modalType === 'update') {
-      fillAccountFormik();
+      fillAccountFormik(account);
     }
   }, []);
 

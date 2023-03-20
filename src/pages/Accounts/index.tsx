@@ -4,12 +4,13 @@ import useGetData from 'requests/queries/useGetData';
 
 import { Account } from 'models/account';
 
-import TitleContainer from 'components/molecules/TitleContainer';
-import ShowModal from 'components/molecules/Modal';
-import AccountsWrapper from 'components/molecules/AccountsWrapper';
 import EmptyBox from 'components/atoms/EmptyBox';
 import AddButton from 'components/atoms/AddButton';
 import AccountModal from 'components/atoms/AccountModal';
+import Resume from 'components/atoms/Resume';
+import TitleContainer from 'components/molecules/TitleContainer';
+import ShowModal from 'components/molecules/Modal';
+import AccountsWrapper from 'components/molecules/AccountsWrapper';
 
 import * as S from './styles';
 
@@ -41,7 +42,7 @@ const Accounts = (): JSX.Element => {
 
       <S.Container>
         {accounts ? <AccountsWrapper accounts={accounts} /> : <EmptyBox />}
-        <S.Charts>Gráficos</S.Charts>
+        <Resume />
       </S.Container>
 
       {openModal && (

@@ -80,7 +80,7 @@ const CategoryModal = ({
     value: item,
   }));
 
-  const fillCategoryFormik = (): void => {
+  const fillCategoryFormik = (category?: Category): void => {
     if (!category) return;
 
     formik.setValues({
@@ -93,7 +93,7 @@ const CategoryModal = ({
 
   useEffect(() => {
     if (modalType === 'update') {
-      fillCategoryFormik();
+      fillCategoryFormik(category);
     }
   }, []);
 

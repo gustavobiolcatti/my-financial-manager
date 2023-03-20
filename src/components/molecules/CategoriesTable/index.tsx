@@ -28,10 +28,6 @@ const CategoriesTable = ({
     setOpenModal(true);
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
   return (
     <>
       <S.Table>
@@ -66,20 +62,20 @@ const CategoriesTable = ({
         </tbody>
       </S.Table>
       {openModal && (
-        <ShowModal showModal={openModal} closeModal={handleCloseModal}>
+        <ShowModal showModal={openModal} closeModal={() => setOpenModal(false)}>
           {modalType === 'update' && category ? (
             <CategoryModal
               category={category}
               modalType="update"
               type={categoryType}
-              closeModal={handleCloseModal}
+              closeModal={() => setOpenModal(false)}
             />
           ) : (
             category && (
               <DeleteCategoryModal
                 category={category}
                 categoryType={categoryType}
-                closeModal={handleCloseModal}
+                closeModal={() => setOpenModal(false)}
               />
             )
           )}

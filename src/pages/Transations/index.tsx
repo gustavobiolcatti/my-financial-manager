@@ -11,6 +11,7 @@ import { AccountsObject } from 'models/account';
 import EmptyBox from 'components/atoms/EmptyBox';
 import AddButton from 'components/atoms/AddButton';
 import TransationModal from 'components/atoms/TransationModal';
+import Resume from 'components/atoms/Resume';
 import TransationsTable from 'components/molecules/TransationsTable';
 import ShowModal from 'components/molecules/Modal';
 import TitleContainer from 'components/molecules/TitleContainer';
@@ -36,7 +37,10 @@ const Transations = (): JSX.Element => {
     value: item,
   }));
 
-  const getTransations = (type: string | null): void => {
+  const getTransations = (
+    transationDate: Date | null,
+    type: string | null,
+  ): void => {
     if (!transationDate || !type) return;
 
     const formattedTransationDate = formatDateWithDateFns(
@@ -93,13 +97,13 @@ const Transations = (): JSX.Element => {
     Object.keys(accounts).length;
 
   useEffect(() => {
-    getTransations(transationType);
+    getTransations(transationDate, transationType);
   }, [transationDate, transationType]);
 
   useEffect(() => {
     getCategories();
     getAccounts();
-    getTransations(transationType);
+    getTransations(transationDate, transationType);
   }, []);
 
   return (
@@ -140,7 +144,7 @@ const Transations = (): JSX.Element => {
           <EmptyBox />
         )}
 
-        <S.Charts>Gráficos</S.Charts>
+        <Resume transationDate={transationDate} />
 
         {openModal && (
           <ShowModal
