@@ -9,6 +9,8 @@ import { useMenu } from 'contexts/MenuContext';
 import ShowModal from 'components/molecules/Modal';
 import ExitModal from 'components/atoms/ExitModal';
 
+import Logo from 'assets/img/logo.svg';
+
 import * as S from './styles';
 
 const NavigationBar = () => {
@@ -34,6 +36,11 @@ const NavigationBar = () => {
       </S.ToggleButton>
 
       <S.LinksWrapper onClick={toggleMenu}>
+        <S.LogoWrapper>
+          <img src={Logo} alt="" />
+          <S.LogoName>my financial manager</S.LogoName>
+        </S.LogoWrapper>
+
         <Link
           to="/dashboard"
           id="dashboard"

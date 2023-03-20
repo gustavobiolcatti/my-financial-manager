@@ -83,6 +83,26 @@ export const LinksWrapper = styled.nav`
   }
 `;
 
+export const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 1em 2em;
+  margin-bottom: 2em;
+
+  img {
+    width: 20%
+  }
+`
+
+export const LogoName = styled.span`
+  margin-left: 1em;
+
+  color: ${colors.white};
+  font-weight: 700;
+`
+
 export const LinkText = styled.div`
   display: flex;
   align-items: center;
