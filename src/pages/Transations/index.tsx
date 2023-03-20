@@ -11,6 +11,7 @@ import { AccountsObject } from 'models/account';
 import EmptyBox from 'components/atoms/EmptyBox';
 import AddButton from 'components/atoms/AddButton';
 import TransationModal from 'components/atoms/TransationModal';
+import Resume from 'components/atoms/Resume';
 import TransationsTable from 'components/molecules/TransationsTable';
 import ShowModal from 'components/molecules/Modal';
 import TitleContainer from 'components/molecules/TitleContainer';
@@ -140,7 +141,7 @@ const Transations = (): JSX.Element => {
           <EmptyBox />
         )}
 
-        <S.Charts>Gráficos</S.Charts>
+        <Resume transationDate={transationDate} />
 
         {openModal && (
           <ShowModal

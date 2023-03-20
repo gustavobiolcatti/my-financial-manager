@@ -6,6 +6,7 @@ import useGetData from 'requests/queries/useGetData';
 import { Transation } from 'models/transation';
 import { CategoriesObject } from 'models/category';
 
+import Resume from 'components/atoms/Resume';
 import ExpenseByCategoryChart from 'components/molecules/ExpenseByCategoryChart';
 import IncomeByCategoryChart from 'components/molecules/IncomeByCategoryChart';
 import ExpenseIncomeChart from 'components/molecules/ExpenseIncomeChart';
@@ -99,6 +100,11 @@ const Dashboard = (): JSX.Element => {
 
         {categories && (
           <>
+            <ExpenseIncomeChart
+              expenses={expenseTransations}
+              incomes={incomeTransations}
+            />
+            <Resume transationDate={transationDate} fullSize />
             <ExpenseByCategoryChart
               categories={expenseCategories}
               transations={expenseTransations}
@@ -106,10 +112,6 @@ const Dashboard = (): JSX.Element => {
             <IncomeByCategoryChart
               categories={incomeCategories}
               transations={incomeTransations}
-            />
-            <ExpenseIncomeChart
-              expenses={expenseTransations}
-              incomes={incomeTransations}
             />
           </>
         )}
