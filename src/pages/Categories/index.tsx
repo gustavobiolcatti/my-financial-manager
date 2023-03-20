@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { SelectPicker } from 'rsuite';
-import { uuidv4 } from '@firebase/util';
 
 import useGetData from 'requests/queries/useGetData';
 

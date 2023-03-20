@@ -63,7 +63,7 @@ const IncomeByCategoryChart = ({
     ],
   };
 
-  const getCategoriesColors = (): void => {
+  const getCategoriesColors = (categories: CategoriesObject | null): void => {
     if (!categories) return;
 
     const colors = Object.values(categories).map((category) => category.color);
@@ -71,7 +71,10 @@ const IncomeByCategoryChart = ({
     setCategoryColors(colors);
   };
 
-  const filterTransationsByCategory = (): void => {
+  const filterTransationsByCategory = (
+    transations: Transation[] | null,
+    categories: CategoriesObject | null,
+  ): void => {
     if (!transations?.length) {
       setTotal([
         {
@@ -104,8 +107,8 @@ const IncomeByCategoryChart = ({
   };
 
   useEffect(() => {
-    getCategoriesColors();
-    filterTransationsByCategory();
+    getCategoriesColors(categories);
+    filterTransationsByCategory(transations, categories);
   }, [transations]);
 
   return (

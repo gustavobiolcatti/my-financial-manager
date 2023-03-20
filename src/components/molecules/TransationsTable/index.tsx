@@ -108,7 +108,6 @@ const TransationsTable = ({
             transation && (
               <DeleteTransationModal
                 transation={transation}
-                transationDate={transationDate}
                 closeModal={() => setOpenModal(false)}
               />
             )

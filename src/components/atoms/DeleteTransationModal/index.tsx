@@ -17,13 +17,11 @@ import * as S from './styles';
 
 type DeleteTransationModalProps = {
   transation: Transation;
-  transationDate: Date | null;
   closeModal: () => void;
 };
 
 const DeleteTransationModal = ({
   transation,
-  transationDate,
   closeModal,
 }: DeleteTransationModalProps): JSX.Element => {
   const [account, setAccount] = useState<Account>();
@@ -33,10 +31,17 @@ const DeleteTransationModal = ({
   const { getData } = useGetData();
   const { showToast } = useToast();
 
-  const handleDeleteData = (): void => {
+  const handleDeleteData = (
+    transation: Transation,
+    account?: Account,
+  ): void => {
     try {
-      if (!transationDate || !account) return;
-      const urlFormattedDate = formatDateWithDateFns(transationDate, 'MM-yyyy');
+      if (!transation || !account) return;
+
+      const urlFormattedDate = formatDateWithDateFns(
+        transation.date,
+        'MM-yyyy',
+      );
 
       const accountBalance = Number(account.balance);
       const transationValue = Number(transation.value);
@@ -76,7 +81,7 @@ const DeleteTransationModal = ({
         Deseja mesmo mesmo excluir a transação?
       </S.Title>
       <S.ButtonContainer>
-        <Button onClick={handleDeleteData} alert>
+        <Button onClick={() => handleDeleteData(transation, account)} alert>
           Sim
         </Button>
         <Button onClick={closeModal}>Não</Button>

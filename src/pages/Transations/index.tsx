@@ -37,7 +37,10 @@ const Transations = (): JSX.Element => {
     value: item,
   }));
 
-  const getTransations = (type: string | null): void => {
+  const getTransations = (
+    transationDate: Date | null,
+    type: string | null,
+  ): void => {
     if (!transationDate || !type) return;
 
     const formattedTransationDate = formatDateWithDateFns(
@@ -94,13 +97,13 @@ const Transations = (): JSX.Element => {
     Object.keys(accounts).length;
 
   useEffect(() => {
-    getTransations(transationType);
+    getTransations(transationDate, transationType);
   }, [transationDate, transationType]);
 
   useEffect(() => {
     getCategories();
     getAccounts();
-    getTransations(transationType);
+    getTransations(transationDate, transationType);
   }, []);
 
   return (

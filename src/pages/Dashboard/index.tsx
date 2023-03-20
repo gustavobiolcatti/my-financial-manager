@@ -45,7 +45,7 @@ const Dashboard = (): JSX.Element => {
     });
   };
 
-  const getTransations = (): void => {
+  const getTransations = (transationDate: Date | null): void => {
     if (!transationDate) return;
 
     const formattedTransationDate = formatDateWithDateFns(
@@ -76,7 +76,7 @@ const Dashboard = (): JSX.Element => {
   };
 
   useEffect(() => {
-    getTransations();
+    getTransations(transationDate);
   }, [transationDate, expenseCategories, incomeCategories]);
 
   useEffect(() => {

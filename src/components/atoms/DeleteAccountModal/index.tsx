@@ -20,7 +20,7 @@ const DeleteAccountModal = ({
   const { setData } = useSetData();
   const { showToast } = useToast();
 
-  const handleDeleteData = (): void => {
+  const handleDeleteData = (account: Account): void => {
     try {
       setData(`/accounts/${account.id}`, { ...account, active: false });
 
@@ -39,7 +39,7 @@ const DeleteAccountModal = ({
     <>
       <S.Title id="modal-title">Deseja mesmo mesmo excluir a conta?</S.Title>
       <S.ButtonContainer>
-        <Button onClick={handleDeleteData} alert>
+        <Button onClick={() => handleDeleteData(account)} alert>
           Sim
         </Button>
         <Button onClick={closeModal}>Não</Button>
