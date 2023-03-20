@@ -6,6 +6,8 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 
+  grid-column: span 2;
+
   padding: 2em;
 
   border-radius: 10px;
