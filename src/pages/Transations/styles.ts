@@ -29,15 +29,3 @@ export const FilterWrapper = styled.div`
 
   grid-column: span 3;
 `;
-
-export const Charts = styled.div`
-  width: 100%;
-
-  padding: 1em;
-
-  border-radius: 10px;
-
-  background: ${colors.white};
-
-  box-shadow: 0 0 2px ${colors.gray};
-`;

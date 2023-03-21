@@ -40,6 +40,7 @@ const TransationModal = ({
   const [accountSelectData, setAccountSelectData] = useState([
     { label: '', value: '' },
   ]);
+
   const [accounts, setAccounts] = useState();
   const [sellectedAccount, setSellectedAccount] = useState<Account | null>(
     null,
@@ -77,6 +78,9 @@ const TransationModal = ({
 
         const urlFormattedDate = formatDateWithDateFns(values.date, 'MM-yyyy');
 
+        const newAccountBalance = Number(sellectedAccount.balance);
+        const newTransationValue = Number(values.value);
+
         const data = {
           id: values.id,
           date: new Date(values.date).toISOString(),
@@ -84,7 +88,7 @@ const TransationModal = ({
           categoryId: values.categoryId,
           description: values.description,
           accountId: values.accountId,
-          value: Number(values.value),
+          value: newTransationValue,
         };
 
         let newBalance = 0;
@@ -99,25 +103,27 @@ const TransationModal = ({
             'MM-yyyy',
           );
 
-          const accountBalance = Number(account.balance);
-          const transationValue = Number(transation.value);
+          const oldAccountBalance = Number(account.balance);
+          const oldTransationValue = Number(transation.value);
+
+          const newTransationValue = Number(formik.values.value);
 
           newBalance =
             transation.type === 'EXPENSE'
-              ? accountBalance + transationValue
-              : accountBalance - transationValue;
-
-          deleteData(`/transations/${urlFormattedOldDate}/${transation.id}`);
+              ? oldAccountBalance + oldTransationValue
+              : oldAccountBalance - oldTransationValue;
 
           newBalance =
-            values.type === 'EXPENSE'
-              ? newBalance - Number(values.value)
-              : newBalance + Number(values.value);
+            formik.values.type === 'EXPENSE'
+              ? newBalance - newTransationValue
+              : newBalance + newTransationValue;
+
+          deleteData(`/transations/${urlFormattedOldDate}/${transation.id}`);
         } else {
           newBalance =
             values.type === 'EXPENSE'
-              ? Number(sellectedAccount.balance) - Number(values.value)
-              : Number(sellectedAccount.balance) + Number(values.value);
+              ? newAccountBalance - newTransationValue
+              : newAccountBalance + newTransationValue;
         }
 
         setData(`/transations/${urlFormattedDate}/${values.id}`, data);
@@ -146,11 +152,6 @@ const TransationModal = ({
       }
     },
   });
-
-  const transationSelectData = ['EXPENSE', 'INCOME'].map((item) => ({
-    label: transationTypeEnumTranslate(item),
-    value: item,
-  }));
 
   const getCategoriesByType = (type: 'EXPENSE' | 'INCOME'): void => {
     const formattedType = type.toLowerCase();
@@ -206,6 +207,11 @@ const TransationModal = ({
       value: Number(transation.value),
     });
   };
+
+  const transationSelectData = ['EXPENSE', 'INCOME'].map((item) => ({
+    label: transationTypeEnumTranslate(item),
+    value: item,
+  }));
 
   useEffect(() => {
     getCategoriesByType(formik.values.type);
