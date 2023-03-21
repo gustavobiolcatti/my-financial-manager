@@ -27,6 +27,7 @@ const ExpenseIncomeChart = ({
     legend: {
       top: '0',
       left: 'center',
+      show: false,
     },
     color: [colors.green, colors.red],
     series: [

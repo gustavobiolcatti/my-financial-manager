@@ -2,24 +2,21 @@ import styled, { css } from 'styled-components';
 
 import colors from 'assets/colors';
 
-import { CardBalanceProps, CardProps } from './types';
+import { CardBalanceProps } from './types';
 
-export const Card = styled.div<CardProps>`
-  ${({ newCard }) => css`
-    display: flex;
-    align-items: ${newCard && 'center'};
-    justify-content: ${newCard && 'center'};
+export const Card = styled.div`
+  display: flex;
+  justify-content: space-between;
 
-    flex-direction: column;
+  flex-direction: column;
 
-    padding: 1em;
+  padding: 1.5em;
 
-    border-radius: 10px;
+  border-radius: 10px;
 
-    background: ${colors.white};
+  background: ${colors.white};
 
-    box-shadow: 0 0 2px ${colors.gray};
-  `}
+  box-shadow: 0 0 2px ${colors.gray};
 `;
 
 export const CardHeader = styled.div`
