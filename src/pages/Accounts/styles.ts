@@ -19,13 +19,3 @@ export const Container = styled.div`
     flex-direction: column;
   }
 `;
-
-export const Charts = styled.div`
-  padding: 1em;
-
-  border-radius: 10px;
-
-  background: ${colors.white};
-
-  box-shadow: 0 0 2px ${colors.gray};
-`;
