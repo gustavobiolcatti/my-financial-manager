@@ -32,6 +32,7 @@ const IncomeByCategoryChart = ({
     legend: {
       top: '0',
       left: 'center',
+      show: false,
     },
     color: categoryColors,
     series: [
