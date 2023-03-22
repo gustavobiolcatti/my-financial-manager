@@ -28,15 +28,14 @@ export const globalBodyStyle = css`
   }
 
   body {
-    
     font-family: 'Poppins', sans-serif;
-    
+
     color: ${colors.black};
-    
+
     background: ${colors.white};
-    
+
     line-height: normal;
-    
+
     overflow: hidden;
   }
 
@@ -47,11 +46,14 @@ export const globalBodyStyle = css`
     height: 100vh;
   }
 
-  a, a:hover, a:visited {
+  a,
+  a:hover,
+  a:visited {
     color: inherit;
     text-decoration: none;
   }
 
+  a,
   button {
     font-size: 1em;
     cursor: pointer;

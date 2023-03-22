@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import colors from 'assets/colors';
 
-export const Container = styled.div`
+export const Container = styled.header`
   display: flex;
   justify-content: flex-end;
 

@@ -4,70 +4,39 @@ import colors from 'assets/colors';
 
 import { ContainerProps } from './types';
 
-export const Container = styled.div<ContainerProps>`
+export const Container = styled.nav<ContainerProps>`
   ${({ active }) => css`
     position: fixed;
 
     width: 250px;
     height: 100%;
 
-    left: ${!active ? '-250px' : 0};
+    left: 0;
+
+    padding: 1em 0;
+
+    background: ${colors.black};
+
+    box-shadow: 0 0 30px 5px ${colors.gray};
 
     transition: 0.2s;
 
     z-index: 1600;
 
-    @media (min-width: 1440px) {
-      left: 0;
+    @media (max-width: 1024px) {
+      left: ${!active ? '-250px' : 0};
     }
   `}
 `;
 
-export const LinksWrapper = styled.nav`
+export const LinksWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 
-  padding: 1em 0;
+  gap: 1em;
 
-  width: 100%;
   height: 100%;
-
-  left: 300px;
-
-  background: ${colors.black};
-
-  box-shadow: 0 0 30px 5px ${colors.gray};
-
-  z-index: 1;
-
-  a,
-  button {
-    display: flex;
-    align-items: center;
-
-    width: 100%;
-
-    padding: 0 1em;
-
-    margin-bottom: 1em;
-
-    transition: 0.2s;
-
-    :last-child {
-      margin-bottom: 0;
-    }
-
-    ::after {
-      content: '';
-
-      height: 100%;
-
-      border-radius: 10px 0 0 10px;
-
-      transition: 0.2s;
-    }
-  }
 
   .sellected-page {
     padding-right: 0;
@@ -78,8 +47,39 @@ export const LinksWrapper = styled.nav`
 
     ::after {
       margin-left: 1em;
+
+      border-radius: 10px 0 0 10px;
       border-left: 5px solid ${colors.purple};
     }
+  }
+`;
+
+export const NavItem = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  padding: 0 1em;
+
+  transition: 0.2s;
+
+  a,
+  button {
+    width: 100%;
+  }
+
+  :last-child {
+    margin-top: auto;
+  }
+
+  ::after {
+    content: '';
+
+    height: 100%;
+
+    transition: 0.2s;
   }
 `;
 
@@ -92,20 +92,21 @@ export const LogoWrapper = styled.div`
   margin-bottom: 2em;
 
   img {
-    width: 20%
+    width: 20%;
   }
-`
+`;
 
 export const LogoName = styled.span`
   margin-left: 1em;
 
   color: ${colors.white};
   font-weight: 700;
-`
+`;
 
 export const LinkText = styled.div`
   display: flex;
   align-items: center;
+
   width: 100%;
 
   padding: 0.5em 0.75em;
@@ -117,8 +118,6 @@ export const LinkText = styled.div`
 
   transition: 0.2s;
 
-  cursor: pointer;
-
   svg {
     margin-right: 1em;
   }
@@ -129,9 +128,7 @@ export const LinkText = styled.div`
   }
 `;
 
-export const Button = styled.button`
-  margin-top: auto;
-`;
+export const Button = styled.button``;
 
 export const ToggleButton = styled.button`
   position: absolute;

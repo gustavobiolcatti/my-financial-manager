@@ -36,66 +36,71 @@ const NavigationBar = () => {
       </S.ToggleButton>
 
       <S.LinksWrapper onClick={toggleMenu}>
-        <S.LogoWrapper>
-          <img src={Logo} alt="" />
-          <S.LogoName>my financial manager</S.LogoName>
-        </S.LogoWrapper>
+        <li>
+          <S.LogoWrapper>
+            <img src={Logo} alt="" />
+            <S.LogoName>my financial manager</S.LogoName>
+          </S.LogoWrapper>
+        </li>
 
-        <Link
-          to="/dashboard"
-          id="dashboard"
-          className="nav-link sellected-page"
-          onClick={() => handleChangeSellectedPage('dashboard')}
-        >
-          <S.LinkText>
-            <RiPieChartLine size={24} />
-            <span>Dashboard</span>
-          </S.LinkText>
-        </Link>
+        <S.NavItem id="dashboard" className="nav-link sellected-page">
+          <Link
+            to="/dashboard"
+            onClick={() => handleChangeSellectedPage('dashboard')}
+          >
+            <S.LinkText>
+              <RiPieChartLine size={24} />
+              <span>Dashboard</span>
+            </S.LinkText>
+          </Link>
+        </S.NavItem>
 
-        <Link
-          to="/accounts"
-          id="accounts"
-          className="nav-link"
-          onClick={() => handleChangeSellectedPage('accounts')}
-        >
-          <S.LinkText>
-            <RiBankLine size={24} />
-            <span>Contas</span>
-          </S.LinkText>
-        </Link>
+        <S.NavItem id="accounts" className="nav-link">
+          <Link
+            to="/accounts"
+            onClick={() => handleChangeSellectedPage('accounts')}
+          >
+            <S.LinkText>
+              <RiBankLine size={24} />
+              <span>Contas</span>
+            </S.LinkText>
+          </Link>
+        </S.NavItem>
 
-        <Link
-          to="/transations"
-          id="transations"
-          className="nav-link"
-          onClick={() => handleChangeSellectedPage('transations')}
-        >
-          <S.LinkText>
-            <RiFileList3Line size={24} />
-            <span>Transações</span>
-          </S.LinkText>
-        </Link>
+        <S.NavItem id="transations" className="nav-link">
+          <Link
+            to="/transations"
+            onClick={() => handleChangeSellectedPage('transations')}
+          >
+            <S.LinkText>
+              <RiFileList3Line size={24} />
+              <span>Transações</span>
+            </S.LinkText>
+          </Link>
+        </S.NavItem>
 
-        <Link
-          to="/categories"
-          id="categories"
-          className="nav-link"
-          onClick={() => handleChangeSellectedPage('categories')}
-        >
-          <S.LinkText>
-            <TbTag size={24} />
-            <span>Categorias</span>
-          </S.LinkText>
-        </Link>
+        <S.NavItem id="categories" className="nav-link">
+          <Link
+            to="/categories"
+            onClick={() => handleChangeSellectedPage('categories')}
+          >
+            <S.LinkText>
+              <TbTag size={24} />
+              <span>Categorias</span>
+            </S.LinkText>
+          </Link>
+        </S.NavItem>
 
-        <S.Button onClick={() => setOpenModal(true)}>
-          <S.LinkText>
-            <MdOutlineExitToApp size={24} />
-            Sair
-          </S.LinkText>
-        </S.Button>
+        <S.NavItem>
+          <S.Button onClick={() => setOpenModal(true)}>
+            <S.LinkText>
+              <MdOutlineExitToApp size={24} />
+              Sair
+            </S.LinkText>
+          </S.Button>
+        </S.NavItem>
       </S.LinksWrapper>
+
       {openModal && (
         <ShowModal showModal={openModal} closeModal={() => setOpenModal(false)}>
           <ExitModal closeModal={() => setOpenModal(false)} />
