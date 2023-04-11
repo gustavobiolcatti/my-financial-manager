@@ -237,7 +237,7 @@ const TransationModal = ({
       title={modalType === 'create' ? 'Nova transação' : 'Editar transação'}
       onSubmit={formik.handleSubmit}
     >
-      <InputGroup>
+      <InputGroup singleColumn>
         <FormLabel htmlFor="value">Valor</FormLabel>
         <Input
           id="value"
@@ -252,7 +252,7 @@ const TransationModal = ({
         />
       </InputGroup>
 
-      <InputGroup>
+      <InputGroup singleColumn>
         <FormLabel htmlFor="description">Descrição</FormLabel>
         <Input
           id="description"
