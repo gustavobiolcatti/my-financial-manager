@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import GoogleIco from 'assets/img/google.svg';
 import colors from 'assets/colors';
 
 export const Container = styled.div`
@@ -34,8 +35,8 @@ export const Content = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 75px;
-  height: 75px;
+  width: 5em;
+  height: 5em;
 
   margin-bottom: 0em;
 `;
@@ -46,4 +47,13 @@ export const LogoTitle = styled.h1`
   @media (max-width: 425px) {
     font-size: 2em;
   }
+`;
+
+export const GoogleIcon = styled.i`
+  width: 2.3em;
+  height: 2.3em;
+
+  margin-right: 1em;
+
+  background: url(${GoogleIco}) no-repeat center;
 `;

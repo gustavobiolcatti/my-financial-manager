@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Add } from '@styled-icons/fluentui-system-filled/Add';
 
 import colors from 'assets/colors';
 
@@ -14,7 +15,7 @@ export const AddButton = styled.button`
 
   border-radius: 5px;
 
-  color: ${colors.purple};
+  background-color: ${colors.purple};
   font-size: 3em;
   font-weight: 100;
 
@@ -23,4 +24,8 @@ export const AddButton = styled.button`
   :hover {
     transform: scale(0.95);
   }
+`;
+
+export const AddIcon = styled(Add)`
+  color: ${colors.white};
 `;
