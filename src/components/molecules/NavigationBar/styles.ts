@@ -1,4 +1,11 @@
 import styled, { css } from 'styled-components';
+import { DonutChart } from '@styled-icons/remix-fill/DonutChart';
+import { Bank } from '@styled-icons/remix-line/Bank';
+import { FileList3 } from '@styled-icons/remix-line/FileList3';
+import { Tag } from '@styled-icons/octicons/Tag';
+import { Exit } from '@styled-icons/boxicons-regular/Exit';
+import { MenuOpen } from '@styled-icons/material-rounded/MenuOpen';
+import { Menu } from '@styled-icons/material-rounded/Menu';
 
 import colors from 'assets/colors';
 
@@ -103,4 +110,22 @@ export const ToggleButton = styled.button`
   @media (min-width: 1440px) {
     display: none;
   }
+`;
+
+export const ChartIcon = styled(DonutChart)``;
+
+export const BankIcon = styled(Bank)``;
+
+export const RecipeIcon = styled(FileList3)``;
+
+export const TagIcon = styled(Tag)``;
+
+export const ExitIcon = styled(Exit)``;
+
+export const MenuOpenIcon = styled(MenuOpen)`
+  color: ${colors.gray};
+`;
+
+export const MenuIcon = styled(Menu)`
+  color: ${colors.gray};
 `;

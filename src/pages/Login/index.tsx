@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FcGoogle } from 'react-icons/fc';
 
 import { useAuth } from 'contexts/AuthContext';
 
@@ -25,7 +24,7 @@ const Login = (): JSX.Element => {
         <S.Image src={Logo} />
         <S.LogoTitle>My Financial Manager</S.LogoTitle>
         <Button secondary onClick={signInWithGoogle}>
-          <FcGoogle size={24} />
+          <S.GoogleIcon />
           Entrar com o Google
         </Button>
       </S.Content>

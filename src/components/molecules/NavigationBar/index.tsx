@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { RiBankLine, RiPieChartLine, RiFileList3Line } from 'react-icons/ri';
-import { MdOutlineExitToApp, MdMenuOpen, MdMenu } from 'react-icons/md';
-import { TbTag } from 'react-icons/tb';
+import { MdMenuOpen, MdMenu } from 'react-icons/md';
 
 import { useMenu } from 'contexts/MenuContext';
 
@@ -32,7 +30,7 @@ const NavigationBar = () => {
   return (
     <S.Container active={menuActive}>
       <S.ToggleButton onClick={toggleMenu}>
-        {menuActive ? <MdMenuOpen size={32} /> : <MdMenu size={32} />}
+        {menuActive ? <S.MenuOpenIcon size={32} /> : <S.MenuIcon size={32} />}
       </S.ToggleButton>
 
       <S.LinksWrapper onClick={toggleMenu}>
@@ -50,7 +48,7 @@ const NavigationBar = () => {
           click={() => handleChangeSellectedPage('dashboard')}
           className="nav-link sellected-page"
         >
-          <RiPieChartLine size={24} />
+          <S.ChartIcon size={24} />
           <span>Dashboard</span>
         </NavItem>
 
@@ -61,7 +59,7 @@ const NavigationBar = () => {
           click={() => handleChangeSellectedPage('accounts')}
           className="nav-link"
         >
-          <RiBankLine size={24} />
+          <S.BankIcon size={24} />
           <span>Contas</span>
         </NavItem>
 
@@ -72,7 +70,7 @@ const NavigationBar = () => {
           click={() => handleChangeSellectedPage('transations')}
           className="nav-link"
         >
-          <RiFileList3Line size={24} />
+          <S.RecipeIcon size={24} />
           <span>Transações</span>
         </NavItem>
 
@@ -83,12 +81,12 @@ const NavigationBar = () => {
           click={() => handleChangeSellectedPage('categories')}
           className="nav-link"
         >
-          <TbTag size={24} />
+          <S.TagIcon size={24} />
           <span>Categorias</span>
         </NavItem>
 
         <NavItem to="" type="button" click={() => setOpenModal(true)}>
-          <MdOutlineExitToApp size={24} />
+          <S.ExitIcon size={24} />
           Sair
         </NavItem>
       </S.LinksWrapper>

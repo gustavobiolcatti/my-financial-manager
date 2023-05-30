@@ -1,9 +1,4 @@
-import { FaPencilAlt } from 'react-icons/fa';
-import { FaTrashAlt } from 'react-icons/fa';
-
 import { ActionButtonProps } from './types';
-
-import colors from 'assets/colors';
 
 import * as S from './styles';
 
@@ -15,9 +10,9 @@ const ActionButton = ({
   return (
     <S.ActionButton actionType={actionType} {...rest}>
       {actionType === 'update' ? (
-        <FaPencilAlt size={20} color={colors.gray} />
+        <S.PencilIcon size={40} title="Editar" />
       ) : (
-        <FaTrashAlt size={20} color={colors.gray} />
+        <S.TrashIcon size={24} title="Excluir" />
       )}
       {children}
     </S.ActionButton>
