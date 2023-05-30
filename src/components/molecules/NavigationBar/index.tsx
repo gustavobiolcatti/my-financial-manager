@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { MdMenuOpen, MdMenu } from 'react-icons/md';
 
 import { useMenu } from 'contexts/MenuContext';
 
