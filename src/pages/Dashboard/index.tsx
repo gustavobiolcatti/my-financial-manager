@@ -87,7 +87,7 @@ const Dashboard = (): JSX.Element => {
     <>
       <TitleContainer title="dashboard" />
       <S.Container>
-        <S.FilterWrapper>
+        {/* <S.FilterWrapper>
           <DatePicker
             format="yyyy-MM"
             placeholder="Mês"
@@ -96,7 +96,7 @@ const Dashboard = (): JSX.Element => {
             cleanable={false}
             style={{ width: 200 }}
           />
-        </S.FilterWrapper>
+        </S.FilterWrapper> */}
 
         {categories && (
           <>
